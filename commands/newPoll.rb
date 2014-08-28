@@ -1,6 +1,5 @@
 class NewPoll < Command
 	@name = "newPoll"
-	@delimiter = ','
 
 	##
 	# Makes a command to create a new poll
@@ -92,6 +91,8 @@ class NewPoll < Command
 		@args << description
 	end
 
+	##
+	# Returns a string representation of the newPoll command
 	def to_s
 		"#{self.class.name} #{@args.join ', '}"
 	end
