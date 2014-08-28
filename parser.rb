@@ -21,7 +21,7 @@ class Parser
 			command.ammend message
 			if command.ready?
 				command.run
-				@commands.delete message.num
+				@unfinished.delete message.num
 			end
 		# Otherwise make a new command
 		else
