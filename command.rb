@@ -21,7 +21,8 @@ class Command
 	# Creates an array of all commands
 	def self.inherited(command)
 		# Makes child commands inherit @name and @delimiter
-		command.instance_variable_set(:@name, :@delimiter)
+		command.instance_variable_set(:@name, @name)
+		command.instance_variable_set(:@delimiter, @delimiter)
 		# DEBUG:
 		puts "Added command #{command}."
 		@commands << command
