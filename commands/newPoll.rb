@@ -1,5 +1,6 @@
 class NewPoll < Command
 	@name = "newPoll"
+	@delimiter = ','
 
 	##
 	# Makes a command to create a new poll
@@ -9,7 +10,7 @@ class NewPoll < Command
 		# Args go here
 		@args = []
 		# Remove the command name from the message
-		message.msg.slice! @name
+		message.msg.slice! 0..self.class.name.size
 		# Parse the message
 		process message
 	end
@@ -36,7 +37,10 @@ class NewPoll < Command
 	end
 
 	def process(message)
-		arguments = message.msg.split @delimiter
+		arguments = message.msg.split self.class.delimiter
+		arguments.map! do |arg|
+			arg.strip
+		end
 		while !arguments.empty?
 			case @args.size
 			when 0
@@ -86,6 +90,10 @@ class NewPoll < Command
 	def parsePollDescription(description)
 		# It's probably pretty happy with the description
 		@args << description
+	end
+
+	def to_s
+		"#{self.class.name} #{@args.join ', '}"
 	end
 end
 				
