@@ -1,6 +1,6 @@
 # Require all commands
-require 'command'
-Dir[File.dirname(_FILE_) + '/commands/*.rb'].each do |file|
+require_relative 'command'
+Dir[File.dirname(__FILE__) + '/commands/*.rb'].each do |file|
 	require file
 end
 
