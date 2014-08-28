@@ -1,18 +1,28 @@
 class Command
+	# Make @name and @delimiter acessable class variables
+	class << self
+		attr_accessor :name, :delimiter, :commands
+	end
 	# The commands name
 	@name = "Name not set!"
-	# Stores the commands position in it's arg array
-	@position = 0
-	# Stores the commands args
-	@args = []
 	# The delimiter for args
 	@delimiter = ','
+	# The array of commands
+	@commands = []
 	
 	##
 	# Creates command and parses message for arguments
 	#
 	def initialize(message)
 		$stderr.puts "#{@name}: initialize not overridden!"
+	end
+
+	##
+	# Creates an array of all commands
+	def self.inherited(command)
+		# DEBUG:
+		puts "Added command #{command}."
+		@commands << command
 	end
 
 	##
