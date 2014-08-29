@@ -8,6 +8,8 @@ class NewPoll < Command
 	def initialize(message)
 		# Args go here
 		@args = []
+		# Outgoing messages go here
+		@response = nil
 		# Remove the command name from the message
 		message.msg.slice! 0..self.class.name.size
 		# Parse the message
@@ -37,7 +39,11 @@ class NewPoll < Command
 	end
 
 	def process(message)
+		# Clear response
+		@response = nil
+		# Break incoming message into arguments
 		arguments = message.msg.split self.class.delimiter
+		# Strip whitespace
 		arguments.map! do |arg|
 			arg.strip
 		end
@@ -56,8 +62,19 @@ class NewPoll < Command
 				break
 			end
 		end
-		# Would check @arg.size here and ask the user to 
-		# send more arguments if nessicary
+		# Sends an appropriate message back if one was not set by the parse functions
+		unless @response
+			case @args.size
+			when 0
+				@response = Message.new message.num, "What group is this poll for?"
+			when 1
+				@response = Message.new message.num, "What discussion is this poll for?"
+			when 2
+				@response = Message.new message.num, "What would you like to call this poll?"
+			when 3
+				@response = Message.new message.num, "What is the description for this poll?"
+			end
+		end
 	end
 
 	##

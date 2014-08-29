@@ -23,6 +23,7 @@ class Parser
 				command.run
 				@unfinished.delete message.num
 			end
+			return command.response
 		# Otherwise make a new command
 		else
 			command = @commands[message.msg.split.first.upcase]
@@ -32,6 +33,7 @@ class Parser
 			else
 				@unfinished[message.num] = command
 			end
+			return command.response
 		end
 	end
 end

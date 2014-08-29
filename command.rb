@@ -47,6 +47,12 @@ class Command
 		$stderr.puts "#{@name}: run not overridden!"
 	end
 	##
+	# Returns a message to be sent
+	#
+	def response
+		@response
+	end
+	##
 	# Gets name
 	#
 	def name
