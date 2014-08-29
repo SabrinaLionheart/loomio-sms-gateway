@@ -50,6 +50,6 @@ class Command
 	# Gets name
 	#
 	def name
-		return @name
+		self.class.name
 	end
 end
