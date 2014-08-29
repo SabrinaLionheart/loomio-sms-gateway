@@ -33,6 +33,7 @@ class NewPoll < Command
 	#
 	def run
 		# Would use loomio api to run command
+		puts "Ran: <#{self}>"
 	end
 
 	def process(message)
