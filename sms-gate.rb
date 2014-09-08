@@ -40,7 +40,7 @@ loop do
 	reply = parser.parse message if message.num && message.msg
 	# Send response if present
 	if reply
-		url = URI.parse URI.extract("http://#{smsServer}:9090/sendsms?phone=#{reply.num}&text=#{reply.msg}&password=#{pass}").first
+		url = URI.parse URI.escape("http://#{smsServer}:9090/sendsms?phone=#{reply.num}&text=#{reply.msg}&password=#{pass}").first
 		req = Net::HTTP::Get.new url.to_s
 		res = Net::HTTP.start url.host, url.port do |http|
 			http.request req
