@@ -42,7 +42,7 @@ class NewPoll < Command
 		# Clear response
 		@response = nil
 		# Break incoming message into arguments
-		arguments = message.msg.split self.class.delimiter
+		arguments = message.msg.split delimiter
 		# Strip whitespace
 		arguments.map! do |arg|
 			arg.strip

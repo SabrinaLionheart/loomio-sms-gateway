@@ -58,4 +58,10 @@ class Command
 	def name
 		self.class.name
 	end
+	##
+	# Gets the delimiter
+	#
+	def delimiter
+		self.class.delimiter
+	end
 end
