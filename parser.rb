@@ -27,6 +27,13 @@ class Parser
 		# Otherwise make a new command
 		else
 			command = @commands[message.msg.split.first.upcase]
+			# Check the command exists
+			unless command
+				puts "Bad command"
+				puts message.inspect
+				# Error message would go here
+				return nil
+			end
 			command = command.new message
 			if command.ready?
 				command.run
