@@ -3,9 +3,16 @@
 require_relative 'message'
 require_relative 'parser'
 require 'cgi'
-require 'uri'
+require 'net/http'
 require 'socket'
+require 'uri'
 
+if ARGV.size != 2
+	puts "Bad arguments!\nruby sms-gate.rb <server address> <password>"
+	exit -1
+end
+smsServer = ARGV[0]
+pass = ARGV[1]
 # Socket to recieve get requests
 smsSocket = TCPServer.new "0.0.0.0", 8080
 # Parser to parse messages
@@ -30,7 +37,16 @@ loop do
 	# Debug:
 	puts message.inspect
 	# Parse message
-	parser.parse message if message.num && message.msg
-	# Send responce from parser goes here
+	reply = parser.parse message if message.num && message.msg
+	# Send response if present
+	if reply
+		url = URI.parse "http://#{smsServer}:9090/sendsms?phone=#{reply.num}\
+			&text=#{reply.msg}&password=#{pass}"
+		req = Net::HTTP::Get.new url.to_s
+		res = Net::HTTP.start url.host, url.port do |http|
+			http.request req
+		end
+		puts "Sent #{reply.inspect}"
+	end
 end
 
