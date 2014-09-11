@@ -17,13 +17,16 @@ class Parser
 	def parse(message)
 		# If a command is awaiting additional input
 		if @unfinished.has_key? message.num
+			# Get command
 			command = @unfinished[message.num]
 			command.ammend message
 			if command.ready?
 				command.run
+				# The command was used remove it
 				@unfinished.delete message.num
 			end
-			return command.response
+			# Perhaps the command wanted to say something
+			return command.response	
 		# Otherwise make a new command
 		else
 			command = @commands[message.msg.split.first.upcase]
