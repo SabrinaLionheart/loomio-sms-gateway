@@ -1,5 +1,6 @@
 # This would be replaced to use a different gateway
 # This is for the SMS Gateway Android app
+# This should never be deployed because it's bad, so is the phone.
 require_relative 'message'
 require_relative 'parser'
 require 'cgi'
@@ -40,12 +41,22 @@ loop do
 	reply = parser.parse message if message.num && message.msg
 	# Send response if present
 	if reply
-		url = URI.parse URI.escape("http://#{smsServer}:9090/sendsms?phone=#{reply.num}&text=#{reply.msg}&password=#{pass}")
-		req = Net::HTTP::Get.new url.to_s
-		res = Net::HTTP.start url.host, url.port do |http|
-			http.request req
+		begin
+			# Make almost correct get request, escape it and 
+			# store it as a URI
+			url = URI.parse URI.escape("http://#{smsServer}:9090/sendsms?phone=#{reply.num}&text=#{reply.msg}&password=#{pass}")
+			# Make the URI a get request proper
+			req = Net::HTTP::Get.new url.to_s
+			# Do the request
+			res = Net::HTTP.start url.host, url.port do |http|
+				http.request req
+			end
+			# Profit
+			puts "Sent #{reply.inspect}"
+		rescue
+			# Do not profit
+			puts "Phone is misbehaving again..."
 		end
-		puts "Sent #{reply.inspect}"
 	end
 end
 
