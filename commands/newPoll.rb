@@ -36,7 +36,7 @@ class NewPoll < Command
 	def run
 		# Would use loomio api to run command
 		puts "Ran: <#{self}>"
-		@response = Message.new @num, "Your poll was not created."
+		@response = Message.new @num, "You asked for: <#{self}>"
 	end
 
 	def process(message)
