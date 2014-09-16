@@ -67,7 +67,7 @@ class Parser
 	#
 	def ageCommands
 		@mUnfinished.synchronize do
-			@unfinished.unshift {}
+			@unfinished.unshift Hash.new
 			@unfinished.pop
 		end
 	end
