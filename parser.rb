@@ -6,14 +6,17 @@ end
 require 'thread'
 
 class Parser
-	def initialize
+	def initialize(maxAge)
 		# Build a hash to relate each command name to it's class
 		@commands = {}
 		Command.commands.each do |command|
 			@commands[command.name.upcase] = command
 		end
-		# A hash for partial commands
-		@unfinished = {}
+		# An array of hashs for partialy complete commands
+		@unfinished = []
+		maxAge.each do
+			@unfinished << {}
+		end
 		# An array of numbers that are currently being processed
 		@processing = []
 		# Mutexes
@@ -21,6 +24,34 @@ class Parser
 		@mProcessing = Mutex.new
 		# ConditionVariables
 		@cProcessing = ConditionVariable.new
+	end
+
+	##
+	# Get a command from the array of hashes
+	# Remove it from the hashes
+	#
+	def takeCommand(num)
+		@mUnfinished.synchronize do
+			@unfinished.each do |hash|
+				command = hash[num]
+				if command
+					hash.delete num
+					return command
+				else
+					next
+				end
+			end
+		end
+		return nil
+	end
+
+	##
+	# Add a command to the youngest hash in the array of hashes
+	#
+	def addCommand(num, command)
+		@mUnfinished.synchronize do
+			@unfinished.first[num] = command
+		end
 	end
 
 	##
@@ -61,34 +92,31 @@ class Parser
 			# Be prepared for a fatal error in commands
 			begin
 				# If a command is awaiting additional input
-				if @unfinished.has_key? message.num
-					# Get command
-					command = @unfinished[message.num]
+				command = takeCommand message.num
+				if command
+					# Ammend the command
 					command.ammend message
-					if command.ready?
-						command.run
-						# The command was used remove it
-						@unfinished.delete message.num
-					end
-					# Perhaps the command wanted to say something
-					return command.response	
 				# Otherwise make a new command
 				else
+					# This gets the class of the command
+					# TODO: Investigate parsing of command name make it better
 					command = @commands[message.msg.split.first.upcase]
 					# Check the command exists
 					unless command
 						puts "Bad command"
 						puts message.inspect
 						# Error message would go here
-						return nil
+						return Message.new message.num, "Your command was invalid. NewPoll is the only command at the moment."
 					end
+					# Actually make the command
 					command = command.new message
-					if command.ready?
-						command.run
-					else
-						@unfinished[message.num] = command
-					end
-					return command.response
+				end
+				if command.ready?
+					command.run
+				else
+					addCommand message.num, command
+				end
+				return command.response
 				end
 			rescue Exception => e
 				# The command encountered a fatal error
