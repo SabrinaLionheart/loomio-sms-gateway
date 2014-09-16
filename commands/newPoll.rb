@@ -11,7 +11,7 @@ class NewPoll < Command
 		# Outgoing messages go here
 		@response = nil
 		# Remove the command name from the message
-		message.msg.slice! 0..self.class.name.size
+		message.msg.slice! 0..name.size
 		# Parse the message
 		process message
 	end
@@ -61,7 +61,7 @@ class NewPoll < Command
 			when 3
 				parsePollDescription arguments.shift
 			else
-				$stderr.puts "#{@name} was passed too many arguments. Ignoring...beware."
+				$stderr.puts "#{name} was passed too many arguments. Ignoring...beware."
 				break
 			end
 		end
@@ -115,7 +115,7 @@ class NewPoll < Command
 	##
 	# Returns a string representation of the newPoll command
 	def to_s
-		"#{self.class.name} #{@args.join ', '}"
+		"#{name} #{@args.join ', '}"
 	end
 end
 				
