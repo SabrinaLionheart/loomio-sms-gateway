@@ -14,7 +14,7 @@ class Parser
 		end
 		# An array of hashs for partialy complete commands
 		@unfinished = []
-		maxAge.each do
+		maxAge.times do
 			@unfinished << {}
 		end
 		# An array of numbers that are currently being processed
