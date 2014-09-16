@@ -17,7 +17,7 @@ pass = ARGV[1]
 # Socket to recieve get requests
 smsSocket = TCPServer.new "0.0.0.0", 8080
 # Parser to parse messages
-parser = Parser.new
+parser = Parser.new 5
 # Unhelpful message
 puts "I'm alive"
 loop do
