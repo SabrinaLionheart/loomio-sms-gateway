@@ -117,7 +117,6 @@ class Parser
 					addCommand message.num, command
 				end
 				return command.response
-				end
 			rescue Exception => e
 				# The command encountered a fatal error
 				# Spam information to the terminal
