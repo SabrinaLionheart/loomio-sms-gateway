@@ -122,8 +122,6 @@ class Parser
 				# Spam information to the terminal
 				puts e.message
 				puts e.backtrace.inspect
-				# Remove bad command
-				@unfinished.delete message.num
 				# Tell the user about the failure
 				return Message.new message.num, "Sorry, there was a fatal error while processing your command."
 			end
