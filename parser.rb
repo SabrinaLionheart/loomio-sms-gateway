@@ -28,7 +28,7 @@ class Parser
 		@reaperThread = Thread.new do
 			loop do
 				sleep 60
-				puts "Culled: #{ageCommands.inspect}"
+				ageCommands
 			end
 		end
 	end
