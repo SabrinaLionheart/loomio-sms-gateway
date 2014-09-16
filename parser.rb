@@ -24,6 +24,13 @@ class Parser
 		@mProcessing = Mutex.new
 		# ConditionVariables
 		@cProcessing = ConditionVariable.new
+		# Create ReaperThread to cull the old commands
+		@reaperThread = Thread.new do
+			loop do
+				sleep 60
+				puts "Culled: #{ageCommands.inspect}"
+			end
+		end
 	end
 
 	##
@@ -51,6 +58,17 @@ class Parser
 	def addCommand(num, command)
 		@mUnfinished.synchronize do
 			@unfinished.first[num] = command
+		end
+	end
+
+	##
+	# Ages the unfinished commands by one unit
+	# Removes expired commands
+	#
+	def ageCommands
+		@mUnfinished.synchronize do
+			@unfinished.unshift {}
+			@unfinished.pop
 		end
 	end
 
