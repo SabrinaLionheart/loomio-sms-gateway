@@ -1,3 +1,5 @@
+require_relative 'DummyAPI'
+
 class Command
 	# Make @name and @delimiter acessable class variables
 	class << self
