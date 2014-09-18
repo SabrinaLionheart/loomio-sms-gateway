@@ -45,7 +45,7 @@ class SuscribeTo < Command
 		
 		DummyAPI.suscribeToGroup @user, @args[0]
 		
-		@response = Message.new @num, "Your number #{@num} have now suscribed to the group #{@args[1]}"
+		@response = Message.new @num, "Your number #{@num} have now suscribed to the group #{@args[0]}"
 	end
 
 	def process(message)
