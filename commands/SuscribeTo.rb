@@ -42,6 +42,9 @@ class SuscribeTo < Command
 	def run
 		# Would use loomio api to run command
 		puts "Ran: <#{self}>"
+		
+		DummyAPI.suscribeToGroup @user, @args[0]
+		
 		@response = Message.new @num, "Your number #{@num} have now suscribed to the group #{@args[1]}"
 	end
 
@@ -83,7 +86,7 @@ class SuscribeTo < Command
 		# Would use loomio api to verify if group is valid
 		# then would suscribe to the group 
 		
-		if DummyAPI.getUserGroup(@user).include? group
+		if DummyAPI.getUserGroups(@user).include? group
 			@args << group
 		else 
 			@response = "The user is not in the given group"
