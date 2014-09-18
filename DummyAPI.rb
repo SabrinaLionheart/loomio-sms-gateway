@@ -20,7 +20,7 @@ class DummyAPI
     # use loomio api to get the list of groups the user is involved in
     # Returns nothing if no groups
     #
-    def self.getUserGroup(user)
+    def self.getUserGroups(user)
         
         # returns dummy list
         return ["group", "another group"]
@@ -39,6 +39,28 @@ class DummyAPI
     end
     
     
+    ##
+    # use loomio api to unsuscribe the user from the given group
+    # 
+    #
+    def self.unsuscribeFromGroup(user, group)
+        
+        # returns success?
+        return true
+        
+    end
+    
+    ##
+    # use loomio api to suscribe the user to the given group
+    # 
+    #
+    def self.suscribeToGroup(user, group)
+        
+        # returns success?
+        return true
+        
+    end
+    
     
     
     ##
@@ -46,6 +68,7 @@ class DummyAPI
     #
     def self.getUserSummary(user)
         
+        # Returns a sample summary
         return "Today sum stuff happended for user with number #{user.number} on lumio, enjoy your'e day"
         
     end
