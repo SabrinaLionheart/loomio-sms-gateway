@@ -3,9 +3,8 @@ class UnsuscribeFrom < Command
 
 	
 	##
-	# Makes a command to create a new poll
+	# Makes a command to create unsuscribe from a group
 	#
-	# newPoll group, discussion, poll_name, poll_description
 	def initialize(message)
 		# Args go here
 		@args = []
@@ -42,6 +41,9 @@ class UnsuscribeFrom < Command
 	def run
 		# Would use loomio api to run command
 		puts "Ran: <#{self}>"
+		
+		DummyAPI.unsuscribeFromGroup @user, @args[1]
+		
 		@response = Message.new @num, "Your number #{@num} have now unsuscribed from the group #{@args[1]}"
 	end
 
@@ -72,7 +74,7 @@ class UnsuscribeFrom < Command
 		unless @response
 			case @args.size
 			when 0
-				@response = Message.new message.num, "What group would you like to suscribed to?"
+				@response = Message.new message.num, "What group would you like to unsuscribe from?"
 			end
 		end
 	end
@@ -81,8 +83,8 @@ class UnsuscribeFrom < Command
 	# Checks the group is valid and adds it to the arguments
 	#
 	def parseGroup(group)
-		# Would use loomio api to verify if group is valid
-		# then would suscribe to the group 
+		# Would use loomio api to verify if group is already suscribed to
+		# then would unsuscribe from the group 
 		
 		if DummyAPI.getSuscribedGroups(@user).include? group
 			@args << group
