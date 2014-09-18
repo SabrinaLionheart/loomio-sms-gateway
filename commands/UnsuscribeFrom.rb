@@ -42,7 +42,7 @@ class UnsuscribeFrom < Command
 		# Would use loomio api to run command
 		puts "Ran: <#{self}>"
 		
-		DummyAPI.unsuscribeFromGroup @user, @args[1]
+		DummyAPI.unsuscribeFromGroup @user, @args[0]
 		
 		@response = Message.new @num, "Your number #{@num} have now unsuscribed from the group #{@args[1]}"
 	end
