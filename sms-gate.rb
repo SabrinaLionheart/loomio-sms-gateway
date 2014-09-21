@@ -56,6 +56,7 @@ loop do
 		rescue
 			# Do not profit
 			puts "Phone is misbehaving again..."
+			puts "Message:\n#{reply.inspect}"
 		end
 	end
 end
