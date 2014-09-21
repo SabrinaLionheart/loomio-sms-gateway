@@ -33,14 +33,15 @@ class GetSummary < Command
 		puts "Ran: <#{self}>"
 		
 		# gets user via API
-		user = DummyAPI.getUserByNumber(message.num)
+		user = DummyAPI.getUserByNumber(@num)
 	
 		# sends back response from API
-		@response = Message.new(@num, DummyAPI.getSummary(user))
+		@response = Message.new(@num, DummyAPI.getUserSummary(user))
 	end
 
 	def process(message)
-		# nothign to process
+		# gets number 
+		@num = message.num
 	end
 
 	##
