@@ -36,7 +36,7 @@ class GetSummary < Command
 		user = DummyAPI.getUserByNumber(@num)
 	
 		# sends back response from API
-		@response = Message.new(@num, DummyAPI.getSummary(user))
+		@response = Message.new(@num, DummyAPI.getUserSummary(user))
 	end
 
 	def process(message)
