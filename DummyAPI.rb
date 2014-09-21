@@ -1,3 +1,6 @@
+
+require_relative "User"
+
 ##
 # Dummy API to simulate behaviors
 #
