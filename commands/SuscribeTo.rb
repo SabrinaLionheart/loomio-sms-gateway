@@ -89,7 +89,7 @@ class SuscribeTo < Command
 		if DummyAPI.getUserGroups(@user).include? group
 			@args << group
 		else 
-			@response = "The user is not in the given group"
+			@response = Message.new @num, "The user is not in the given group"
 		end
 	end
 
