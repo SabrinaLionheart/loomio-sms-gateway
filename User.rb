@@ -6,7 +6,7 @@ class User
     @number = 23451235
     
     # dummy command to create a user with given number
-    def self.new(num)
+    def initialize(num)
         @number = num
     end
     

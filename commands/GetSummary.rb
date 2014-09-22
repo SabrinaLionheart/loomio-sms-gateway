@@ -8,6 +8,7 @@ class GetSummary < Command
 	def initialize(message)
 		# Outgoing messages go here
 		@response = nil
+		process message
 	end
 	
 	##
