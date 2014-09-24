@@ -49,6 +49,7 @@ class SMSManager
 	#
 	def self.sendSMS(array, mutex, conditionNewMessage)
 		require 'net/http'
+		require 'resolv-replace'
 		require 'yaml'
 		params = nil
 		begin
