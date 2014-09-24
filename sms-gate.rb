@@ -14,9 +14,9 @@ outgoingMessages = []
 outgoingMessages_m = Mutex.new
 outgoingMessages_c = ConditionVariable.new
 
-$stderr.puts "Starting reciever"
+$stderr.puts "Starting receiver"
 # Message recieving thread
-messageReciever = Thread.new do
+messageReceiver = Thread.new do
 	SMSManager.getSMS incomingMessages, incomingMessages_m, incomingMessages_c
 end
 
@@ -55,8 +55,8 @@ messageProcessor = Thread.new do
 	end
 end
 
-messageReciever.join
-$stderr.puts "Joined reciever"
+messageReceiver.join
+$stderr.puts "Joined receiver"
 messageProcessor.join
 $stderr.puts "Joined processor"
 messageSender.join

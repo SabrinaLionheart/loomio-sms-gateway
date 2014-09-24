@@ -32,7 +32,7 @@ class SMSManager
 				return "Message recieved."
 			end
 		end
-		$stderr.puts "Started reciever"
+		$stderr.puts "Started receiver"
 		listener.run!
 		# Sinatra appears to trap ctrl_c, this is a work around
 		# TODO: Look into this
