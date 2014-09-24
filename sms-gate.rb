@@ -1,62 +1,64 @@
-# This would be replaced to use a different gateway
-# This is for the SMS Gateway Android app
-# This should never be deployed because it's bad, so is the phone.
 require_relative 'message'
 require_relative 'parser'
-require 'cgi'
-require 'net/http'
-require 'socket'
-require 'uri'
+require_relative 'smsManager'
+require 'thread'
 
-if ARGV.size != 2
-	puts "Bad arguments!\nruby sms-gate.rb <server address> <password>"
-	exit -1
-end
-smsServer = ARGV[0]
-pass = ARGV[1]
-# Socket to recieve get requests
-smsSocket = TCPServer.new "0.0.0.0", 8080
-# Parser to parse messages
+# New parser with ~5 minutes of timeout on messages
 parser = Parser.new 5
-# Unhelpful message
-puts "I'm alive"
-loop do
-	puts "Listening..."
-	# Accept connection
-	client = smsSocket.accept
-	# Read message
-	message = client.recvfrom 1000
-	# Respond to client and close connection
-	client.puts "K tnx"
-	client.close
-	# Parse get request
-	message = message.first.split
-	message = message[1]
-	message = message[2..-1]
-	message = CGI.parse message
-	message = Message.new message["phone"].first, message["text"].first
-	# Debug:
-	puts message.inspect
-	# Parse message
-	reply = parser.parse message if message.num && message.msg
-	# Send response if present
-	if reply
-		begin
-			# Make almost correct get request, escape it and 
-			# store it as a URI
-			url = URI.parse URI.escape("http://#{smsServer}:9090/sendsms?phone=#{reply.num}&text=#{reply.msg}&password=#{pass}")
-			# Make the URI a get request proper
-			req = Net::HTTP::Get.new url.to_s
-			# Do the request
-			res = Net::HTTP.start url.host, url.port do |http|
-				http.request req
+# Place and synchronization for incoming sms
+incomingMessages = []
+incomingMessages_m = Mutex.new
+incomingMessages_c = ConditionVariable.new
+# Place and synchronization for outgoing sms
+outgoingMessages = []
+outgoingMessages_m = Mutex.new
+outgoingMessages_c = ConditionVariable.new
+
+$stderr.puts "Starting reciever"
+# Message recieving thread
+messageReciever = Thread.new do
+	SMSManager.getSMS incomingMessages, incomingMessages_m, incomingMessages_c
+end
+
+$stderr.puts "Starting sender"
+# Message sending Thread
+messageSender = Thread.new do
+	SMSManager.sendSMS outgoingMessages, outgoingMessages_m, outgoingMessages_c
+end
+
+$stderr.puts "Starting parser"
+# Message processing thread
+messageProcessor = Thread.new do
+	$stderr.puts "Started parser"
+	loop do
+		message = nil
+		incomingMessages_m.synchronize do
+			incomingMessages_c.wait incomingMessages_m if incomingMessages.empty?
+			message = incomingMessages.shift
+		end
+		reply = parser.parse message
+
+		# Send the reply
+		if reply
+			# Ensure the message is really a message
+			unless reply.is_a? Message
+				$stderr.puts "Parser recieved a message that was not infact a message!"
+				$stderr.puts message.inspect
+				next
 			end
-			# Profit
-			puts "Sent #{reply.inspect}"
-		rescue
-			# Do not profit
-			puts "Phone is misbehaving again..."
+			# Put the message in the outgoing array
+			outgoingMessages_m.synchronize do
+				outgoingMessages << reply
+				outgoingMessages_c.signal
+			end
 		end
 	end
 end
+
+messageReciever.join
+$stderr.puts "Joined reciever"
+messageProcessor.join
+$stderr.puts "Joined processor"
+messageSender.join
+$stderr.puts "Joined sender"
 
