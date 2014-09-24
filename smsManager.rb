@@ -15,6 +15,7 @@ class SMSManager
 		listener = Sinatra.new do
 			# Tell sinatra to use port 8080
 			set :port, 8080
+			set :bind, '0.0.0.0'
 
 			# Tell sinatra to do the work
 			get '/' do
