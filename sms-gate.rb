@@ -1,41 +1,64 @@
 require_relative 'message'
 require_relative 'parser'
-require 'net/http'
-require 'sinatra'
-
-# Arguments
-if ARGV.size !=2
-	puts "Bad arguments!\nruby sms-gate.rb <server address> <password>"
-	exit -1
-end
-server = ARGV[0]
-pass = ARGV[1]
+require_relative 'smsManager'
+require 'thread'
 
 # New parser with ~5 minutes of timeout on messages
 parser = Parser.new 5
+# Place and synchronization for incoming sms
+incomingMessages = []
+incomingMessages_m = Mutex.new
+incomingMessages_c = ConditionVariable.new
+# Place and synchronization for outgoing sms
+outgoingMessages = []
+outgoingMessages_m = Mutex.new
+outgoingMessages_c = ConditionVariable.new
 
-# Tell sinatra to use port 8080
-set :port, 8080
+puts "Starting reciever"
+# Message recieving thread
+messageReciever = Thread.new do
+	SMSManager.getSMS incomingMessages, incomingMessages_m, incomingMessages_c
+end
 
-# Tell sinatra to do the work
-get '/' do
-	# Make sure the required parameters are present
-	# Report when they are missing
-	return "Need parameter phone" unless params[:phone]
-	return "Need parameter text" unless params[:text]
+puts "Starting sender"
+# Message sending Thread
+messageSender = Thread.new do
+	SMSManager.sendSMS outgoingMessages, outgoingMessages_m, outgoingMessages_c
+end
 
-	# Process the message
-	reply = parser.parse Message.new params[:phone], params[:text]
+$stderr.puts "Starting parser"
+# Message processing thread
+messageProcessor = Thread.new do
+	$stderr.puts "Started parser"
+	loop do
+		message = nil
+		incomingMessages_m.synchronize do
+			incomingMessages_c.wait incomingMessages_m if incomingMessages.empty?
+			message = incomingMessages.shift
+		end
+		reply = parser.parse message
 
-	# Send the reply
-	if reply
-		# Build the url
-		url = URI.parse URI.escape("http://#{server}:9090/sendsms?phone=#{reply.num}&text=#{reply.msg}&password=#{pass}")
-		# Attempt to send message
-		resp = Net::HTTP.get_response(url)
-		# Sucess
-		return resp.body if resp.is_a?(Net::HTTPSuccess)
-		# Else failure
-		return "Failed to send message!"
+		# Send the reply
+		if reply
+			# Ensure the message is really a message
+			unless reply.is_a? Message
+				$stderr.puts "Parser recieved a message that was not infact a message!"
+				$stderr.puts message.inspect
+				next
+			end
+			# Put the message in the outgoing array
+			outgoingMessages_m.synchronize do
+				outgoingMessages << reply
+				outgoingMessages_c.signal
+			end
+		end
 	end
 end
+
+messageReciever.join
+puts "Joined reciever"
+messageProcessor.join
+puts "Joined processor"
+messageSender.join
+puts "Joined sender"
+
