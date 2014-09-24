@@ -66,7 +66,6 @@ class SMSManager
 			f.write params.to_yaml
 			exit -1
 		end
-			puts "Params: #{params}"
 		$stderr.puts "Started sender"
 		loop do
 			begin
@@ -89,8 +88,8 @@ class SMSManager
 				$stderr.puts "Failed to send: #{message}" unless resp.is_a?(Net::HTTPSuccess)
 			# Something bad. Perhaps the phone is misbehaving again
 			rescue Exception => e
-				puts "Exception in smsSending"
-				puts e.message
+				$stderr.puts "Exception in smsSending"
+				$stderr.puts e.message
 			end
 		end
 	end
