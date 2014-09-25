@@ -3,6 +3,7 @@ require_relative 'command'
 Dir[File.dirname(__FILE__) + '/commands/*.rb'].each do |file|
 	require file
 end
+require 'set'
 require 'thread'
 
 class Parser
@@ -17,8 +18,8 @@ class Parser
 		maxAge.times do
 			@unfinished << {}
 		end
-		# An array of numbers that are currently being processed
-		@processing = []
+		# An set of numbers that are currently being processed
+		@processing = Set.new
 		# Mutexes
 		@mUnfinished = Mutex.new
 		@mProcessing = Mutex.new
