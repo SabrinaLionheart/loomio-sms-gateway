@@ -68,16 +68,16 @@ class SMSManager
 		end
 		$stderr.puts "Started sender"
 		loop do
-			begin
-				message = nil
-				
-				mutex.synchronize do
-					# If there is no message wait for one
-					conditionNewMessage.wait(mutex) if array.empty?
-					# Get a message
-					message = array.shift
-				end
+			message = nil
+			attempts = 0	
+			mutex.synchronize do
+				# If there is no message wait for one
+				conditionNewMessage.wait(mutex) if array.empty?
+				# Get a message
+				message = array.shift
+			end
 
+			begin
 				# Build the url
 				url = URI.parse URI.escape("http://#{params[:server]}:9090/sendsms?phone=#{message.num}&text=#{message.msg}&password=#{params[:pass]}")
 				
@@ -90,6 +90,8 @@ class SMSManager
 			rescue Exception => e
 				$stderr.puts "Exception in smsSending"
 				$stderr.puts e.message
+				attempts += 1
+				retry if attempts < 3
 			end
 		end
 	end
