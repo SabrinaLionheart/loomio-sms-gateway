@@ -118,7 +118,7 @@ class Parser
 				else
 					# This gets the class of the command
 					# TODO: Investigate parsing of command name make it better
-					command = @commands[message.msg.split.first.upcase]
+					command = @commands[message.msg.split(" ", 2).first.upcase]
 					# Check the command exists
 					unless command
 						puts "Bad command"
