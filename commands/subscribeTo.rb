@@ -1,18 +1,17 @@
-class UnsuscribeFrom < Command
-	@name = "unsuscribeFrom"
+class SubscribeTo < Command
+	@name = "subscribeTo"
+	#Changed delimiter for this to : allowing different group names
+	@delimiter = ':'
 
-	
 	##
-	# Makes a command to create unsuscribe from a group
+	# Makes a command to create a new poll
 	#
+	# newPoll group, discussion, poll_name, poll_description
 	def initialize(message)
 		# Args go here
 		@args = []
 		# Outgoing messages go here
 		@response = nil
-		
-		#Changed delimiter for this to : allowing different group names
-		@delimiter = ':'
 		
 		# Remove the command name from the message
 		message.msg.slice! 0..self.class.name.size
@@ -42,15 +41,14 @@ class UnsuscribeFrom < Command
 		# Would use loomio api to run command
 		puts "Ran: <#{self}>"
 		
-		DummyAPI.unsuscribeFromGroup @user, @args[0]
+		DummyAPI.subscribeToGroup @user, @args[0]
 		
-		@response = Message.new @num, "Your number #{@num} have now unsuscribed from the group #{@args[0]}"
+		@response = Message.new @num, "You (#{@num}) have been subscribed to the group #{@args[0]}."
 	end
 
 	def process(message)
 		# Store number
 		@num = message.num
-		# Gets user handle
 		@user = DummyAPI.getUserByNumber message.num
 		# Clear response
 		@response = nil
@@ -74,7 +72,7 @@ class UnsuscribeFrom < Command
 		unless @response
 			case @args.size
 			when 0
-				@response = Message.new message.num, "What group would you like to unsuscribe from?"
+				@response = Message.new message.num, "What group would you like to be subscribed to?"
 			end
 		end
 	end
@@ -83,18 +81,18 @@ class UnsuscribeFrom < Command
 	# Checks the group is valid and adds it to the arguments
 	#
 	def parseGroup(group)
-		# Would use loomio api to verify if group is already suscribed to
-		# then would unsuscribe from the group 
-		
-		if DummyAPI.getSuscribedGroups(@user).include? group
+		# Would use loomio api to verify if group is valid
+		# then would subscribe to the group 
+		groups = DummyAPI.getUserGroups(@user)
+		if groups.include? group
 			@args << group
 		else 
-			@response = "The user is not already suscribed to the given group"
+			@response = Message.new @num, "You are not in that group. Your options are #{groups.join ", "}"
 		end
 	end
 
 	##
-	# Returns a string representation of the UnsuscribeFrom command
+	# Returns a string representation of the SubscribeTo command
 	def to_s
 		"#{self.class.name} #{@args.join ', '}"
 	end

@@ -1,11 +1,10 @@
-class SuscribeTo < Command
-	@name = "suscribeTo"
+class UnsubscribeFrom < Command
+	@name = "unsubscribeFrom"
 
 	
 	##
-	# Makes a command to create a new poll
+	# Makes a command to create unsubscribe from a group
 	#
-	# newPoll group, discussion, poll_name, poll_description
 	def initialize(message)
 		# Args go here
 		@args = []
@@ -43,14 +42,15 @@ class SuscribeTo < Command
 		# Would use loomio api to run command
 		puts "Ran: <#{self}>"
 		
-		DummyAPI.suscribeToGroup @user, @args[0]
+		DummyAPI.unsubscribeFromGroup @user, @args[0]
 		
-		@response = Message.new @num, "Your number #{@num} have now suscribed to the group #{@args[0]}"
+		@response = Message.new @num, "You (#{@num}) have been unsubscribed from #{@args[0]}"
 	end
 
 	def process(message)
 		# Store number
 		@num = message.num
+		# Gets user handle
 		@user = DummyAPI.getUserByNumber message.num
 		# Clear response
 		@response = nil
@@ -74,7 +74,7 @@ class SuscribeTo < Command
 		unless @response
 			case @args.size
 			when 0
-				@response = Message.new message.num, "What group would you like to suscribed to?"
+				@response = Message.new message.num, "What group would you like to unsubscribe from?"
 			end
 		end
 	end
@@ -83,18 +83,19 @@ class SuscribeTo < Command
 	# Checks the group is valid and adds it to the arguments
 	#
 	def parseGroup(group)
-		# Would use loomio api to verify if group is valid
-		# then would suscribe to the group 
-		
-		if DummyAPI.getUserGroups(@user).include? group
+		# Would use loomio api to verify if group is already subscribed to
+		# then would unsubscribe from the group 
+		groups = DummyAPI.getUserGroups(@user)
+		if groups.include? group
 			@args << group
 		else 
-			@response = Message.new @num, "The user is not in the given group"
+			@response = Message.new @num, "Your not subscribed to that group. You are subscribed to the following groups #{groups.join ", "}"
 		end
 	end
 
 	##
-	# Returns a string representation of the SuscribeTo command
+	# Returns a string representation of the UnsubscribeFrom command
+	#
 	def to_s
 		"#{self.class.name} #{@args.join ', '}"
 	end

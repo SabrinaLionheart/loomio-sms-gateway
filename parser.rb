@@ -124,7 +124,7 @@ class Parser
 						puts "Bad command"
 						puts message.inspect
 						# Error message would go here
-						return Message.new message.num, "Your command was invalid. NewPoll is the only command at the moment."
+						return Message.new message.num, "Your command was invalid. Here are the avaliable commands: #{@commands.keys.join ", "}"
 					end
 					# Actually make the command
 					command = command.new message
