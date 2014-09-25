@@ -121,8 +121,8 @@ class Parser
 					command = @commands[message.msg.split(" ", 2).first.upcase]
 					# Check the command exists
 					unless command
-						puts "Bad command"
-						puts message.inspect
+						$stderr.puts "Bad command"
+						$stderr.puts message.inspect
 						# Error message would go here
 						return Message.new message.num, "Your command was invalid. Here are the avaliable commands: #{@commands.keys.join ", "}"
 					end
@@ -138,8 +138,8 @@ class Parser
 			rescue Exception => e
 				# The command encountered a fatal error
 				# Spam information to the terminal
-				puts e.message
-				puts e.backtrace.inspect
+				$stderr.puts e.message
+				$stderr.puts e.backtrace.inspect
 				# Tell the user about the failure
 				return Message.new message.num, "Sorry, there was a fatal error while processing your command."
 			end
