@@ -87,7 +87,7 @@ class SubscribeTo < Command
 		if groups.include? group
 			@args << group
 		else 
-			@response = Message.new @num, "You are not in that group. Your options are #{groups.join ", "}"
+			@response = Message.new @num, "You are not in that group. Please select a group from the following list: #{groups.join ", "}"
 		end
 	end
 

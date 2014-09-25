@@ -89,7 +89,7 @@ class UnsubscribeFrom < Command
 		if groups.include? group
 			@args << group
 		else 
-			@response = Message.new @num, "Your not subscribed to that group. You are subscribed to the following groups #{groups.join ", "}"
+			@response = Message.new @num, "Your not subscribed to that group. Please select a group from the following list: #{groups.join ", "}"
 		end
 	end
 
