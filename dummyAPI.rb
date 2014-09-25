@@ -68,7 +68,7 @@ class DummyAPI
     def self.getUserSummary(user)
         
         # Returns a sample summary
-        return "Nothing happened in any of the groups you care about. You can charge you iPhone with a microwave though, pretty neat."
+        return "Nothing happened in any of the groups you care about. You can charge your iPhone with a microwave now though, pretty neat."
         
     end
     
