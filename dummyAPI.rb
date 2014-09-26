@@ -24,7 +24,7 @@ class DummyAPI
     def self.getUserGroups(user)
         
         # returns dummy list
-        return ["group", "another group"]
+        return ["Team Aqua", "Team Magma", "Team Rocket"]
         
     end
     
@@ -35,7 +35,7 @@ class DummyAPI
     def self.getSubscribedGroups(user)
         
         # returns dummy list
-        return ["group"]
+        return ["Team Aqua"]
         
     end
     
