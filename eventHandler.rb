@@ -30,7 +30,7 @@ class EventHandler
 			set :port, 8080
 			set :bind, '0.0.0.0'
 
-			post '/' do
+			post '/api/event/?' do
 				# Will likely change
 
 				# No event?
