@@ -10,33 +10,25 @@ class SMSManager
 	# ConditionNewMessage is to be signalled whenever a message is added
 	# 
 	def self.getSMS(array, mutex, conditionNewMessage)
-		require 'sinatra/base'
-
-		listener = Sinatra.new do
-			# Tell sinatra to use port 8080
-			set :port, 8080
-			set :bind, '0.0.0.0'
-
-			# Tell sinatra to do the work
-			get '/' do
-				# Make sure the required parameters are present
-				# Report when they are missing
-				return "Need parameter phone" unless params[:phone]
-				return "Need parameter text" unless params[:text]
-				
-				# Add the message to the array
-				mutex.synchronize do
-					array << Message.new(params[:phone], params[:text])
-					conditionNewMessage.signal
-				end
-				return "Message recieved."
+		# This is a hacky way of adding route to Sinatra
+		# Sinatra is primarily used to handle incoming api requests
+		while $handler == nil do
+			sleep 1
+		end
+		$handler.get '/sms/?' do
+			# Make sure the required parameters are present
+			# Report when they are missing
+			return "Need parameter phone" unless params[:phone]
+			return "Need parameter text" unless params[:text]
+			
+			# Add the message to the array
+			mutex.synchronize do
+				array << Message.new(params[:phone], params[:text])
+				conditionNewMessage.signal
 			end
+			return "Message recieved."
 		end
 		$stderr.puts "Started receiver"
-		listener.run!
-		# Sinatra appears to trap ctrl_c, this is a work around
-		# TODO: Look into this
-		exit 0
 	end
 	##
 	# Sends all messages in the array in a synchronized way

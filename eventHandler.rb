@@ -18,18 +18,16 @@ class EventHandler
 	end
 
 	##
-	# Recieves events from Loomio as json objects and
+	# Returns a Sinatra app that recieves events from Loomio as json objects and
 	# handles them apropriatly
 	#
-	# Expects to be run in it's own Thread
-	#
-	def handleEvents(array, mutex, conditionNewMessage)
+	def getHandler(array, mutex, conditionNewMessage)
 		require 'json'
 		require 'sinatra/base'
 		events = @events
 		handler = Sinatra.new do
 			# Configure sinatra
-			set :port, 1234
+			set :port, 8080
 			set :bind, '0.0.0.0'
 
 			post '/' do
@@ -51,10 +49,6 @@ class EventHandler
 				return "#{event["name"]} processed successfully"
 			end
 		end
-		$stderr.puts "Started event handler"
-		handler.run!
-		# Sinatra will likely trap ctrl_c here, this is a work around
-		# TODO: Fix this
-		exit 0
+		handler
 	end
 end

@@ -61,15 +61,19 @@ end
 $stderr.puts "Starting event handler"
 # EventHandling thread
 eventProcessor = Thread.new do
-	eventHandler.handleEvents outgoingMessages, outgoingMessages_m, outgoingMessages_c
+	$handler = eventHandler.getHandler outgoingMessages, outgoingMessages_m, outgoingMessages_c
+	$handler.run!
 end
 
-messageReceiver.join
-$stderr.puts "Joined receiver"
-messageProcessor.join
-$stderr.puts "Joined processor"
 eventProcessor.join
 $stderr.puts "Joined event processor"
+messageReceiver.kill
+messageReceiver.join
+$stderr.puts "Joined receiver"
+messageProcessor.kill
+messageProcessor.join
+$stderr.puts "Joined processor"
+messageSender.kill
 messageSender.join
 $stderr.puts "Joined sender"
 
