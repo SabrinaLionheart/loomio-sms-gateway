@@ -36,10 +36,8 @@ class EventHandler
 				# Will likely change
 
 				# No event?
-				puts params.inspect
-				event = JSON.parse params[:event]
-				puts events.inspect
-				return "Need event" unless event
+				event = JSON.parse request.body.read
+				return "Need event in body" unless event
 				handler = events[event["name"]]
 				# Unhandled event?
 				return "Event not recognised" unless handler
