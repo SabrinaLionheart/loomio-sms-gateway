@@ -1,3 +1,4 @@
+require_relative 'eventHandler'
 require_relative 'message'
 require_relative 'parser'
 require_relative 'smsManager'
@@ -5,6 +6,8 @@ require 'thread'
 
 # New parser with ~5 minutes of timeout on messages
 parser = Parser.new 5
+# New event handler
+eventHandler = EventHandler.new
 # Place and synchronization for incoming sms
 incomingMessages = []
 incomingMessages_m = Mutex.new
@@ -55,10 +58,18 @@ messageProcessor = Thread.new do
 	end
 end
 
+$stderr.puts "Starting event handler"
+# EventHandling thread
+eventProcessor = Thread.new do
+	eventHandler.handleEvents outgoingMessages, outgoingMessages_m, outgoingMessages_c
+end
+
 messageReceiver.join
 $stderr.puts "Joined receiver"
 messageProcessor.join
 $stderr.puts "Joined processor"
+eventProcessor.join
+$stderr.puts "Joined event processor"
 messageSender.join
 $stderr.puts "Joined sender"
 

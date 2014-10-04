@@ -1,11 +1,20 @@
+# Require all events
+require_relative 'event'
+Dir[File.dirname(__FILE__) + '/events/*.rb'].each do |file|
+	require file
+end
+
 ##
 # Recieves events from Loomio as json objects and
 # handles them apropriatly
 #
 class EventHandler
-	def initilize
+	def initialize
 		# Build events hash
-		@events = Event.events.inject Hash.new { |events, event| events[event.name] = event }
+		@events = Event.events.inject Hash.new do |events, event| 
+			events[event.name] = event
+			events
+		end
 	end
 
 	##
@@ -17,7 +26,7 @@ class EventHandler
 	def handleEvents(array, mutex, conditionNewMessage)
 		require 'json'
 		require 'sinatra/base'
-
+		events = @events
 		handler = Sinatra.new do
 			# Configure sinatra
 			set :port, 1234
@@ -25,10 +34,18 @@ class EventHandler
 
 			post '/' do
 				# Will likely change
-				return "Need event parameter" unless params[:event]
-				event = JSON.parse params[:event]
-				message = @events[event["name"]].handle event
 
+				# No event?
+				puts params.inspect
+				event = JSON.parse params[:event]
+				puts events.inspect
+				return "Need event" unless event
+				handler = events[event["name"]]
+				# Unhandled event?
+				return "Event not recognised" unless handler
+
+				message = handler.handle event
+				
 				mutex.synchronize do
 					array << message
 					conditionNewMessage.signal

@@ -20,12 +20,13 @@ class Event
 		event.instance_variable_set :@name, @name
 		# Track all events
 		@events << event
+		$stderr.puts "#{event} loaded"
 	end
 
 	##
 	# Takes an event and produces a message
 	#
-	def self.handle(message)
+	def self.handle(event)
 		$stderr.puts "#{self.class} did not overwrite handle"
 	end
 	##
