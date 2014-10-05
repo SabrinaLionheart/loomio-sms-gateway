@@ -10,12 +10,8 @@ class SMSManager
 	# ConditionNewMessage is to be signalled whenever a message is added
 	# 
 	def self.getSMS(array, mutex, conditionNewMessage)
-		# This is a hacky way of adding route to Sinatra
-		# Sinatra is primarily used to handle incoming api requests
-		while $handler == nil do
-			sleep 1
-		end
-		$handler.get '/sms/?' do
+		require_relative 'gateAPI'
+		GateAPI.api.get '/sms/?' do
 			# Make sure the required parameters are present
 			# Report when they are missing
 			return "Need parameter phone" unless params[:phone]
