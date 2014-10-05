@@ -12,6 +12,13 @@ class GateAPI
 		set :port, 8080
 		set :bind, '0.0.0.0'
 	end
+	
+	##
+	# Passes method calls on the the Sinatra app
+	#
+	def self.method_missing(method, *args, &block)
+		@api.send(method, *args, &block)
+	end
 
 	##
 	# Instance of app
@@ -25,6 +32,6 @@ class GateAPI
 	# Provide acess to instance
 	#
 	class << self
-		attr_accessor :api, :instance
+		attr_accessor :instance
 	end
 end

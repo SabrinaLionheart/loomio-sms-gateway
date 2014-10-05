@@ -21,7 +21,7 @@ class EventHandler
 			events
 		end
 		# Tell GateAPI to handle events
-		GateAPI.api.post '/api/event/?' do
+		GateAPI.post '/api/event/?' do
 			# No event?
 			event = JSON.parse request.body.read
 			return "Need event in body" unless event

@@ -11,7 +11,7 @@ class SMSManager
 	# 
 	def self.getSMS(array, mutex, conditionNewMessage)
 		require_relative 'gateAPI'
-		GateAPI.api.get '/sms/?' do
+		GateAPI.get '/sms/?' do
 			# Make sure the required parameters are present
 			# Report when they are missing
 			return "Need parameter phone" unless params[:phone]
