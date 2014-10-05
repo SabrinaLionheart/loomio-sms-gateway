@@ -125,7 +125,7 @@ class Parser
 						$stderr.puts "Bad command"
 						$stderr.puts message.inspect
 						# Error message would go here
-						return Message.new message.num, "Your command was invalid. Here are the avaliable commands: #{@commands.keys.join ", "}"
+						return Message.new message.num, "Your command was invalid. Here are the avaliable commands: #{Command.commands.join ", "}"
 					end
 					# Actually make the command
 					command = command.new message
