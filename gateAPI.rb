@@ -29,7 +29,7 @@ class GateAPI
 	end
 
 	##
-	# Provide acess to instance
+	# Provide access to instance
 	#
 	class << self
 		attr_accessor :instance
