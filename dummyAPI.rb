@@ -24,8 +24,24 @@ class DummyAPI
     def self.getUserGroups(user)
         
         # returns dummy list
-        return ["Team Aqua", "Team Magma", "Team Rocket"]
+        return ["Team Aqua", "Team Magma", "Team Rocket", "Team xX420BL4Z3Xx", "Test Group"]
         
+    end
+    
+    
+    
+    ##
+    # Gets info about the given group in the loomio database relative to that user.
+    #
+    def self.getGroupStatus(user)
+    	
+    	# sample output
+    	return 'public'
+    	
+    	# return 'private'
+    	
+    	# return 'invalid'
+    	
     end
     
     ##
@@ -35,9 +51,19 @@ class DummyAPI
     def self.getSubscribedGroups(user)
         
         # returns dummy list
-        return ["Team Aqua"]
+        return ["Team Aqua", "Team Magma"]
         
     end
+    
+    ##
+    # Returns an array of ongoing discussions in the group
+    #
+    def self.getGroupDiscussions(group)
+    	
+    	return ["World Domination", "Funniest Cat Picture", "An Interesting Discussion"]
+    	
+    end
+    
     
     ##
     # use loomio api to unsubscribe the user from the given group
@@ -45,8 +71,8 @@ class DummyAPI
     #
     def self.unsubscribeFromGroup(user, group)
         
-        # returns success?
-        return true
+        # returns result of API call or success
+        return 'success'
         
     end
     
@@ -55,8 +81,8 @@ class DummyAPI
     #
     def self.subscribeToGroup(user, group)
         
-        # returns success?
-        return true
+        # returns result of API call or success
+        return 'success'
         
     end
     
@@ -69,6 +95,21 @@ class DummyAPI
         
         # Returns a sample summary
         return "Nothing happened in any of the groups you care about. You can charge your iPhone with a microwave now though, pretty neat."
+        
+    end
+    
+    
+    ##
+    # use loomio api to get stuff the user has recently been involved in.
+    #
+    def self.getPollSummary(poll)
+        
+        # Returns a sample summary
+        return %Q(The <#{poll}> positions are
+Agree		=	<50%>
+Disagree	=	<80%>
+Abstain		=	<10%>
+Block		=	<3%>)
         
     end
     
