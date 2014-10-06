@@ -72,7 +72,7 @@ class SubscribeTo < Command
 		unless @response
 			case @args.size
 			when 0
-				@response = Message.new message.num, "What group would you like to be subscribed to?"
+				@response = Message.new message.num, "Please provide a group or subdomain name to subscribe to"
 			end
 		end
 	end
@@ -81,13 +81,31 @@ class SubscribeTo < Command
 	# Checks the group is valid and adds it to the arguments
 	#
 	def parseGroup(group)
+		
+		# No group supplied? do nothign
+		if(!group) return
+		
 		# Would use loomio api to verify if group is valid
-		# then would subscribe to the group 
-		groups = DummyAPI.getUserGroups(@user)
-		if groups.include? group
-			@args << group
-		else 
-			@response = Message.new @num, "You are not in that group. Please select a group from the following list: #{groups.join ", "}"
+		
+		status = DummyAPI.getGroupStatus(@user)
+		
+		case status
+		
+		when 'success'
+		
+			# then would subscribe to the group 
+			groups = DummyAPI.getUserGroups(@user)
+			if groups.include? group
+				@args << group
+			else 
+				@response = Message.new @num, "You are not in that group. Please select a group from the following list: #{groups.join ", "}"
+			end
+			
+		when 'private'
+			@response = Message.new(@num, "Sorry, that group or subdomain is private")
+		when 'invalid'
+			@respons = Message.new(@num, "Sorry, that group or subdomain does not exist")
+		
 		end
 	end
 
