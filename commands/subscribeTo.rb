@@ -18,7 +18,7 @@ class SubscribeTo < Command
 		# Parse the message
 		process message
 	end
-	
+	 
 	##
 	# Continues creating a command
 	#
