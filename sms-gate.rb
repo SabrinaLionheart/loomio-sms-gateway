@@ -5,8 +5,8 @@ require_relative 'parser'
 require_relative 'smsManager'
 require 'thread'
 
-# New parser with ~5 minutes of timeout on messages
-parser = Parser.new 5
+# New parser
+parser = Parser.new
 # Place and synchronization for incoming sms
 incomingMessages = []
 incomingMessages_m = Mutex.new
