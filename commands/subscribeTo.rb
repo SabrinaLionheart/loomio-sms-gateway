@@ -6,7 +6,6 @@ class Subscribe < Command
 	#
 	# Needs API functions that add users to a 
 	def subscribe(message)
-		
 		@group	= subdomain
 		@user	= username
 	end
