@@ -17,7 +17,7 @@ class PollClosing < Event
 		percentAbstain	=	MessageHelper.percentage proposal["abstain_votes_count"], proposal["votes_count"]
 		percentBlock	=	MessageHelper.percentage proposal["block_votes_count"], proposal["votes_count"]
 	
-		msg = "Proposal #{event["proposal name"]} is about to close. The final positions are:
+		msg = "Proposal #{event["proposal name"]} is about to close. The current positions are:
 		Agree        =  #{percentAgree}
 		Disagree    =    #{percentDisagree}
 		Abstain    =    #{percentAbstain}
