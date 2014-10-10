@@ -18,7 +18,8 @@ class GetProposal < Command
 		percentBlock	=	MessageHelper.percentage proposal["block_votes_count"], proposal["votes_count"]
 
 		# This is where the user is told the outcome of their command
-		return Message.new message.num, "Agree        =  #{percentAgree}
+		return Message.new message.num, "The current positions are:
+		Agree        =  #{percentAgree}
 		Disagree    =    #{percentDisagree}
 		Abstain    =    #{percentAbstain}
 		Block        =    #{percentBlock}" if proposal.is_a? Hash
