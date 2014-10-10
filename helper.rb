@@ -13,7 +13,9 @@ class Helper
     
     res = Net::HTTP.get_response(uri)
     
-    if res.is_a?(Net::HTTPSuccess) return res
+
+    return res  if res.is_a?(Net::HTTPSuccess)
+
 
     rescue Exception => e
 			$stderr.puts "Failure to sent request to #{url}, attempt #{attempt}"
@@ -25,9 +27,7 @@ class Helper
 			  $stderr.puts "Failure to sent request to #{url}. Attempts exceeded."
 			  return nil
 			end
-		end
-    
-    
-
-
+    end
+  end
 end
+
