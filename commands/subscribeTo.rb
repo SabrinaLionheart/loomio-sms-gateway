@@ -11,7 +11,7 @@ class Subscribe < Command
 		# The message
 		return Message.new message.num if api.Subscribe
 		
-		msg = “Sorry, that group does not exist”
+		msg = "Sorry, that group does not exist"
 		# The message
 		return Message.new message.num api.Subscribe
 	end
