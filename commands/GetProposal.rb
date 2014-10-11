@@ -1,6 +1,4 @@
-
 class GetProposal < Command
-require 'json'	
 	
 	##
 	# Processes a message for newPoll
