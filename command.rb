@@ -1,5 +1,5 @@
 require_relative 'dummyAPI'
-
+require_relative 'MessageHelper'
 ##
 # The super class for commands
 # Creates an array of children to track commands

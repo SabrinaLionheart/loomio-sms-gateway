@@ -1,4 +1,7 @@
+
 class GetProposal < Command
+require 'json'	
+	
 	##
 	# Processes a message for newPoll
 	# getProposal <Proposal number>
@@ -8,10 +11,10 @@ class GetProposal < Command
 		
 		arguments = message.msg.split " "	
 		propNum = arguments.first
-
+		
 		# Making a call to the API giving it a proposal number and getting a proposal 
 		proposal = LoomioAPI.getProposal propNum
-
+		
 		percentAgree	=	MessageHelper.percentage proposal["yes_votes_count"], proposal["votes_count"]		
 		percentDisagree =	MessageHelper.percentage proposal["no_votes_count"], proposal["votes_count"]
 		percentAbstain	=	MessageHelper.percentage proposal["abstain_votes_count"], proposal["votes_count"]
@@ -19,10 +22,10 @@ class GetProposal < Command
 
 		# This is where the user is told the outcome of their command
 		return Message.new message.num, "The current positions are:
-		Agree        =  #{percentAgree}
-		Disagree    =    #{percentDisagree}
-		Abstain    =    #{percentAbstain}
-		Block        =    #{percentBlock}" if proposal.is_a? Hash
+Agree		=	#{percentAgree}
+Disagree	=	#{percentDisagree}
+Abstain		=	#{percentAbstain}
+Block		=	#{percentBlock}" if proposal.is_a? Hash
 
 		return Message.new message.num, "The proposal does not exist"
 	end
