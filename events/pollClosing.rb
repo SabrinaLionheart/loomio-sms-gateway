@@ -18,10 +18,10 @@ class PollClosing < Event
 		percentBlock	=	MessageHelper.percentage proposal["block_votes_count"], proposal["votes_count"]
 	
 		msg = "Proposal #{event["proposal name"]} is about to close. The current positions are:
-		Agree        =  #{percentAgree}
-		Disagree    =    #{percentDisagree}
-		Abstain    =    #{percentAbstain}
-		Block        =    #{percentBlock}"
+		Agree		=	#{percentAgree}
+		Disagree	=	#{percentDisagree}
+		Abstain		=	#{percentAbstain}
+		Block		=	#{percentBlock}"
 		# The message
 		Message.new event["number"], msg
 	end
