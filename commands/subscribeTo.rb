@@ -1,4 +1,4 @@
-class Subscribe < Command
+class SubscribeTo < Command
 
 	##
 	# Makes a command to subscribe a user to a subdomain

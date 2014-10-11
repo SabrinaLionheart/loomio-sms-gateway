@@ -9,7 +9,7 @@ class PollClosed < Event
 	#
 	def self.handle(event)
 	
-			# Making a call to the API giving it a proposal number and getting a proposal 
+		# Making a call to the API giving it a proposal number and getting a proposal 
 		proposal = LoomioAPI.getProposal propNum
 
 		percentAgree	=	MessageHelper.percentage proposal["yes_votes_count"], proposal["votes_count"]		
