@@ -20,10 +20,12 @@ class LoomioAPI
 
     # Loads from config the API URL.
     @APICommands = YAML.load_file "apiConfig.yaml"
-    unless @APICommands[:apiurl]
-      raise "api url not correctly defined!"
-    end
+    raise "loomio url not correctly defined!" unless @APICommands[:apiurl]
+    raise "gate api url not correctly defined!" unless @APICommands[:handler_url]
+
+
     @url = @APICommands[:apiurl]
+    @handlerURL = @APICommands[:handler_url]
 
     $stderr.puts "API initialised"
   end
@@ -46,12 +48,23 @@ class LoomioAPI
 
     $stderr.puts "sending request to #{uri.to_s}"
 
-    res = Net::HTTP.get_response(uri)
-
-    return res
+    return Net::HTTP.get_response(uri)
 
   end
 
+
+
+  # posts data in hash to the api url
+  def postRequest(apiURL, data)
+
+    uri = URI(@url + apiURL)
+
+    $stderr.puts "sending request to #{uri.to_s} with data #{data.to_s}"
+
+    return Net::HTTP.post_form(uri, data)
+
+
+  end
 
   # Given a http response, returns an array with the 0th index being the HTTP status (404, 200, 403) and the rest being hash of JSON from response
   #
@@ -61,10 +74,18 @@ class LoomioAPI
     elsif res.is_a?(Net::HTTPForbidden)
       return ['403']
     elsif res.is_a?(Net::HTTPSuccess)
-      jsonObj = ['200'] # adds the '200' in front of the array of hashes
-      jsonObj.concat JSON.parse(res.body)
 
-      return jsonObj
+      parsed = JSON.parse(res.body)
+
+      if parsed.is_a? Array
+        return ['200'].concat parsed # adds the '200' in front of the array of hashes
+      else
+        return ['200', parsed]
+      end
+
+
+      return nil
+
     end
   end
 
@@ -124,20 +145,28 @@ class LoomioAPI
   #
   #####################################################################################################################################################################################################################################################################
   def getProposalsBySubdomain(subdomain)
-    res = getResponse("active_proposals/", subdomain)
 
-    return jsonfy(res)
+    return jsonfy getResponse("active_proposals/", subdomain)
   end
 
   #
   # Gets a single JSON representation of the latest proposal given the key of the group. returns array, whose first element is status code.
   #
   def getLatestProposalByKey(key)
-    res = getResponse("proposals/", key)
-    res.body = "[#{res.body}]"
 
-    return jsonfy(res)
+    return jsonfy getResponse("proposals/", key)
+
   end
+
+  #
+  # Subscribe to a subdomain, given the subdomain name and the phone number which wants to receive updaterinos.
+  #
+  def subscribeToSubdomain(subdomain, number)
+
+    return jsonfy postRequest("api_group_subscriptions", {:subdomain => subdomain, :tag => number, :path => @handlerURL})
+
+  end
+
 
   #####################################################################################################################################################################################################################################################################
 
@@ -161,8 +190,9 @@ class LoomioAPI
         # returns result of API call or success
         return 'success'
         
-    end
-    
+  end
+
+
     
     
     ##
@@ -234,9 +264,11 @@ end
 #testing purposes
 def test
 
-  puts LoomioAPI.api.getGroupDiscussions("abstainers")
+  #puts LoomioAPI.api.subscribeToSubdomain("abstainers", "656565").to_s
 
-  puts LoomioAPI.api.getProposalSummary("xEtj48Rz").to_s
+  #puts LoomioAPI.api.getGroupDiscussions("abstainers").to_s
+
+  #puts LoomioAPI.api.getProposalSummary("xEtj48Rz").to_s
 
   # puts LoomioAPI.api.getProposalsBySubdomain("abstainers").to_s
 
@@ -244,4 +276,4 @@ def test
 
 end
 
-#test
+test
