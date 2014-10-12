@@ -20,12 +20,13 @@ class EventHandler
 			events[event.name] = event
 			events
 		end
+		puts events
 		# Tell GateAPI to handle events
 		GateAPI.post '/api/event/?' do
 			# No event?
 			event = JSON.parse request.body.read
 			return "Need event in body" unless event
-			handler = events[event["name"]]
+			handler = events[event["event"]]
 			# Unhandled event?
 			return "Event not recognised" unless handler
 
@@ -35,7 +36,7 @@ class EventHandler
 				array << message
 				conditionNewMessage.signal
 			end
-			return "#{event["name"]} processed successfully"
+			return "#{event["event"]} processed successfully"
 		end
 	end
 end
