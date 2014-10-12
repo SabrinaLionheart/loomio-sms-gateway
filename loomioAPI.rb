@@ -218,7 +218,7 @@ class LoomioAPI
       return [hash["yes_votes_count"], hash["no_votes_count"], hash["abstain_votes_count"], hash["block_votes_count"]]
     end
 
-    return nil
+    return arr[0]
 
 
   end
@@ -229,7 +229,9 @@ class LoomioAPI
 
     hash = getProposalsBySubdomain(group)
 
-    if hash.shift == "200"
+
+
+    if (status = hash.shift) == "200"
       output = Array.new
 
       hash.each do |x|
@@ -239,7 +241,7 @@ class LoomioAPI
       return output
     end
 
-    return nil
+    return status
 
     #return ["World Domination", "Funniest Cat Picture", "An Interesting Discussion"]
 
