@@ -3,7 +3,7 @@
 #
 class User
     
-    @number = 23451235
+    @number = 42 # Not Exzaiden's number
     
     # dummy command to create a user with given number
     def initialize(num)
