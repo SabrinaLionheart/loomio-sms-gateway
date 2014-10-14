@@ -11,8 +11,10 @@ class GetProposal < Command
 		propNum = arguments.first
 		
 		# Making a call to the API giving it a proposal number and getting a proposal 
-		proposal = LoomioAPI.getProposal propNum
+		status, proposal = LoomioAPI.getProposalByKey propNum
 		
+		return Message.new message.num, "The proposal does not exist" unless status == 200
+
 		percentAgree	=	MessageHelper.percentage proposal["yes_votes_count"], proposal["votes_count"]		
 		percentDisagree =	MessageHelper.percentage proposal["no_votes_count"], proposal["votes_count"]
 		percentAbstain	=	MessageHelper.percentage proposal["abstain_votes_count"], proposal["votes_count"]
@@ -23,8 +25,6 @@ class GetProposal < Command
 Agree		=	#{percentAgree}
 Disagree	=	#{percentDisagree}
 Abstain		=	#{percentAbstain}
-Block		=	#{percentBlock}" if proposal.is_a? Hash
-
-		return Message.new message.num, "The proposal does not exist"
+Block		=	#{percentBlock}"
 	end
 end
