@@ -1,4 +1,4 @@
-require_relative 'dummyAPI'
+require_relative 'loomioAPI'
 require_relative 'MessageHelper'
 ##
 # The super class for commands

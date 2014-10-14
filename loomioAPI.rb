@@ -1,4 +1,3 @@
-require_relative "user"
 require 'net/http'
 require 'resolv-replace'
 require 'yaml'
@@ -34,7 +33,7 @@ class LoomioAPI
 
   # Gets response given the api url and api parameters, and possibly params to post.
   #
-  private def getResponse(apiURL, apiParams, params = nil)
+  def getResponse(apiURL, apiParams, params = nil)
     uri = URI(@url + apiURL + apiParams)
     uri.query = URI.encode_www_form(params) if params
 
@@ -55,7 +54,7 @@ class LoomioAPI
   # Given a http response, returns an array with the 0th index being the HTTP 
   # status (404, 200, 403) and the rest being hash of JSON from response
   #
-  private def jsonfy(res)
+  def jsonfy(res)
     if res.is_a?(Net::HTTPNotFound)
       return ['404']
     elsif res.is_a?(Net::HTTPForbidden)
@@ -116,6 +115,8 @@ class LoomioAPI
 
     return status
   end
+
+  private :getResponse, :postRequest, :jsonfy
 end
 
 '
