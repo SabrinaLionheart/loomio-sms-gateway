@@ -14,7 +14,7 @@ class GateAPI
 	end
 	
 	##
-	# Passes method calls on the the Sinatra app
+	# Passes method calls on to the Sinatra app
 	#
 	def self.method_missing(method, *args, &block)
 		@api.send(method, *args, &block)
@@ -22,7 +22,7 @@ class GateAPI
 
 	##
 	# Instance of app
-	# Can only have one running at a given time
+	# Can only have one instance of sinatra running
 	#
 	@instance = Thread.new do
 		@api.run!
