@@ -1,5 +1,6 @@
 ##
-# Will be used to give the user a list of proposals for a given group
+# Will be used to give the user a list of proposals and associated proposal 
+# numbers for a given group
 class ViewGroup < Command
 	##
 	# Processes a message for viewGroup
@@ -20,11 +21,12 @@ class ViewGroup < Command
 		props = result[1]
 		msg = "The active proposals are:\n"
 		
-		# For each hash get the key and add it to the msg string
+		# For each hash get the proposal name & key and add it to the msg string
 		props.each {
 			|p|
 			k = p[:key]
-			msg += "#{k}\n"
+			n = p[:name]
+			msg += "#{n} - #{k}\n"
 		}
 
 		# Add help at the end for more information on a proposal
