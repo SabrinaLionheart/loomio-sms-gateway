@@ -1,4 +1,4 @@
 ---
-:apiurl: http://rd.severinmm.com:3000/api/v1
-:handler_url: http://Home.SeverinMM.com/api/event
-:apiPath: /api/v1
+:apiurl: http://rd.severinmm.com:3000/api/v1/
+:handler_url: http://Home.SeverinMM.com:8080/api/event
+:apiPath: /api/v1/

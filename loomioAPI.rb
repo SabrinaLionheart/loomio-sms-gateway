@@ -19,14 +19,13 @@ class LoomioAPI
   @http = Net::HTTP.new @uri.host, @uri.port
   @path = @APICommands[:apiPath]
   @handlerURL = @APICommands[:handler_url]
-
   $stderr.puts "API initialised"
   
   class << self
     # Gets response given the api url and api parameters, and possibly params to post.
     #
     def getResponse(apiURL, apiParams, params = nil)
-      uri = URI(@url + apiURL + apiParams)
+      uri = URI(@uri + apiURL + apiParams)
       uri.query = URI.encode_www_form(params) if params
   
       $stderr.puts "sending request to #{uri.to_s}"
@@ -36,7 +35,7 @@ class LoomioAPI
   
     # posts data in hash to the api url
     def postRequest(apiURL, data)
-      uri = URI(@url + apiURL)
+      uri = URI(@uri + apiURL)
   
       $stderr.puts "sending request to #{uri.to_s} with data #{data.to_s}"
   
@@ -138,7 +137,7 @@ def test
 
   puts LoomioAPI.getProposalByKey("xEtj48Rz").to_s
 
-  puts LoomioAPI.api.unsubscribeFromSubdomain("abstainers", "656565").to_s
+  puts LoomioAPI.unsubscribeFromSubdomain("abstainers", "656565").to_s
 end
 
 test
