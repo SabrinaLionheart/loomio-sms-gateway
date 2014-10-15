@@ -1,6 +1,4 @@
 ---
 :apiurl: http://rd.severinmm.com:3000/api/v1
 :handler_url: http://Home.SeverinMM.com/api/event
-:serverAddr: rd.severinmm.com
-:port: 3000
 :apiPath: /api/v1

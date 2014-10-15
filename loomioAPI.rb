@@ -21,6 +21,7 @@ class LoomioAPI
     # Loads from config the API URL.
     @APICommands = YAML.load_file "apiConfig.yaml"
     raise "loomio url not correctly defined!" unless @APICommands[:apiPath]
+    raise "Server URL not correctly defined!" unless @APICommands[:apiurl]
     raise "gate api url not correctly defined!" unless @APICommands[:handler_url]
 
 
@@ -157,13 +158,13 @@ def test
 
   begin
 
-    puts LoomioAPI.api.subscribeToSubdomain("abstainers", "656565").to_s
+    #puts LoomioAPI.api.subscribeToSubdomain("abstainers", "656565").to_s
 
-    puts LoomioAPI.api.getProposalsBySubdomain("abstainers").to_s
+    #puts LoomioAPI.api.getProposalsBySubdomain("abstainers").to_s
 
-    puts LoomioAPI.api.getLatestProposalByKey("xEtj48Rz").to_s
+    #puts LoomioAPI.api.getLatestProposalByKey("xEtj48Rz").to_s
 
-    puts LoomioAPI.api.unsubscribeFromSubdomain("abstainers", "656565").to_s
+    #puts LoomioAPI.api.unsubscribeFromSubdomain("abstainers", "656565").to_s
 
   rescue Exception
 
