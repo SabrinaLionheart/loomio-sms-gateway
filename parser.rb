@@ -35,7 +35,7 @@ class Parser
 			# The command encountered a fatal error
 			# Spam information to the terminal
 			$stderr.puts e.message
-			$stderr.puts e.backtrace.inspect
+			$stderr.puts e.backtrace
 			# Tell the user about the failure
 			return Message.new message.num, "Sorry, there was a fatal error while processing your command."
 		end
