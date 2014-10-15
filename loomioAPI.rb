@@ -109,7 +109,7 @@ class LoomioAPI
   end
 end
 
-`
+'
 #testing purposes
 def test
   puts LoomioAPI.subscribeToSubdomain("abstainers", "656565").to_s
@@ -122,4 +122,4 @@ def test
 end
 
 test
-`
+'

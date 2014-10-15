@@ -9,7 +9,7 @@ class ViewGroup < Command
 		# Remove the command name from the message
 		message.msg.slice! 0..name.size
 		arguments = message.msg.split " "
-		subdomain = arguments[1]
+		subdomain = arguments.first
 
 		# An API call giving it a subdomain and getting an array of active proposals
 		result = LoomioAPI.getProposalsBySubdomain subdomain
@@ -22,15 +22,14 @@ class ViewGroup < Command
 		msg = "The active proposals are:\n"
 		
 		# For each hash get the proposal name & key and add it to the msg string
-		props.each {
-			|p|
-			k = p[:key]
-			n = p[:name]
+		props.each do |p|
+			k = p["key"]
+			n = p["name"]
 			msg += "#{n} - #{k}\n"
-		}
+		end
 
 		# Add help at the end for more information on a proposal
-		msg += "Text \"getProposal \" followed by a proposal number for more info"
+		msg += "Text \"getProposal\" followed by a proposal number for more info"
 
 		# This is where the user is told the outcome of their command
 		return Message.new message.num, msg
