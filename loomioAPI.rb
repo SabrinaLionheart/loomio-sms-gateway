@@ -1,6 +1,5 @@
-require_relative "user"
 require 'net/http'
-require 'resolv-replace'
+
 require 'yaml'
 
 require 'rubygems'
@@ -44,17 +43,16 @@ class LoomioAPI
 
   # Gets response given the api url and api parameters, and possibly params to post.
   #
-  private def getResponse(apiURL, apiParams, params = nil)
+  def getResponse(apiURL, apiParams, params = nil)
 
-            req = Net::HTTP::Get.new(@path + apiURL + '/' + apiParams)
-            req.set_form_data(params) unless params == nil
+    req = Net::HTTP::Get.new(@path + apiURL + '/' + apiParams)
+    req.set_form_data(params) unless params == nil
 
-            $stderr.puts "sending GET to #{@uri.to_s + @path + apiURL}"
+    $stderr.puts "sending GET to #{@uri.to_s + @path + apiURL}"
 
-            return @http.request(req)
+    return @http.request(req)
 
-          end
-
+  end
 
 
   # posts data in hash to the api url
@@ -92,27 +90,10 @@ class LoomioAPI
     elsif res.is_a?(Net::HTTPSuccess)
 
       parsed = JSON.parse(res.body)
-
-      if parsed.is_a? Array
-        return ['200'].concat parsed # adds the '200' in front of the array of hashes
-      else
-        return ['200', parsed]
-      end
-
-
-      return nil
-
+      return ['200', parsed]
     end
-  end
 
-
-  #
-  def getUserByNumber(number)
-        
-        # just returns a new dummy user
-        return User.new number
-        
-    end
+          end
 
 
   # Gets an array of proposals in JSON format when given a subdomain name. The first member of the array is status code of whether the request was successful
@@ -144,7 +125,7 @@ class LoomioAPI
 
   def unsubscribeFromSubdomain(subdomain, number)
 
-    return jsonfy deleteRequest("/api_group_subscriptions/", subdomain, {:tag => number, :path => @handlerURL})
+    return jsonfy deleteRequest("/api_group_subscriptions", subdomain, {:tag => number, :path => @handlerURL})
 
   end
 
@@ -158,13 +139,13 @@ def test
 
   begin
 
-    #puts LoomioAPI.api.subscribeToSubdomain("abstainers", "656565").to_s
+    puts LoomioAPI.api.subscribeToSubdomain("abstainers", "656565").to_s
 
-    #puts LoomioAPI.api.getProposalsBySubdomain("abstainers").to_s
+    puts LoomioAPI.api.getProposalsBySubdomain("abstainers").to_s
 
-    #puts LoomioAPI.api.getLatestProposalByKey("xEtj48Rz").to_s
+    puts LoomioAPI.api.getLatestProposalByKey("xEtj48Rz").to_s
 
-    #puts LoomioAPI.api.unsubscribeFromSubdomain("abstainers", "656565").to_s
+    puts LoomioAPI.api.unsubscribeFromSubdomain("abstainers", "656565").to_s
 
   rescue Exception
 
