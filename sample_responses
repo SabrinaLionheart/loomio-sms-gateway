@@ -1,0 +1,17 @@
+Below are sample API calls and what they return
+
+
+
+LoomioAPI.subscribeToSubdomain("abstainers", "656565")
+[200, {"id"=>38, "group_id"=>1, "path"=>"http://Home.SeverinMM.com/api/event", "tag"=>"656565", "created_at"=>"2014-10-15T06:24:23.288Z", "updated_at"=>"2014-10-15T06:24:23.288Z"}]
+
+LoomioAPI.getProposalsBySubdomain("abstainers") =>
+[200, [{"id"=>3, "name"=>"Abstain?", "description"=>"", "author_id"=>1, "created_at"=>"2014-10-08T23:43:03.281Z", "updated_at"=>"2014-10-15T00:11:22.032Z", "closed_at"=>nil, "discussion_id"=>1, "outcome"=>nil, "last_vote_at"=>"2014-10-15T00:11:22.015Z", "uses_markdown"=>true, "yes_votes_count"=>0, "no_votes_count"=>0, "abstain_votes_count"=>1, "block_votes_count"=>0, "closing_at"=>"2014-10-11T23:00:00.000Z", "did_not_votes_count"=>nil, "votes_count"=>1, "outcome_author_id"=>nil, "key"=>"fmkAxaej"}, {"id"=>5, "name"=>"AHHHHHHHH!", "description"=>"......", "author_id"=>1, "created_at"=>"2014-10-10T05:10:03.514Z", "updated_at"=>"2014-10-10T05:10:17.811Z", "closed_at"=>nil, "discussion_id"=>5, "outcome"=>nil, "last_vote_at"=>"2014-10-10T05:10:17.799Z", "uses_markdown"=>true, "yes_votes_count"=>0, "no_votes_count"=>0, "abstain_votes_count"=>1, "block_votes_count"=>0, "closing_at"=>"2014-10-13T05:00:00.000Z", "did_not_votes_count"=>nil, "votes_count"=>1, "outcome_author_id"=>nil, "key"=>"tNUqCQ5d"}, {"id"=>6, "name"=>"Test Proposal subscription!", "description"=>"", "author_id"=>1, "created_at"=>"2014-10-12T08:28:51.625Z", "updated_at"=>"2014-10-12T09:42:43.037Z", "closed_at"=>nil, "discussion_id"=>6, "outcome"=>nil, "last_vote_at"=>"2014-10-12T08:29:25.763Z", "uses_markdown"=>true, "yes_votes_count"=>1, "no_votes_count"=>0, "abstain_votes_count"=>0, "block_votes_count"=>0, "closing_at"=>"2014-10-12T10:42:00.000Z", "did_not_votes_count"=>nil, "votes_count"=>1, "outcome_author_id"=>nil, "key"=>"oJA7wChS"}]]
+
+LoomioAPI.getProposalByKey("xEtj48Rz") =>
+[200, {"id"=>4, "name"=>"I propose we all throw a party!", "description"=>"Parties solve most problems!", "author_id"=>1, "created_at"=>"2014-10-09T09:15:48.563Z", "updated_at"=>"2014-10-09T09:15:48.563Z", "closed_at"=>nil, "discussion_id"=>4, "outcome"=>nil, "last_vote_at"=>nil, "uses_markdown"=>true, "yes_votes_count"=>0, "no_votes_count"=>0, "abstain_votes_count"=>0, "block_votes_count"=>0, "closing_at"=>"2014-10-12T09:00:00.000Z", "did_not_votes_count"=>nil, "votes_count"=>0, "outcome_author_id"=>nil, "key"=>"xEtj48Rz"}]
+
+LoomioAPI.unsubscribeFromSubdomain("abstainers", "656565") =>
+[200, [{"id"=>38, "group_id"=>1, "path"=>"http://Home.SeverinMM.com/api/event", "tag"=>"656565", "created_at"=>"2014-10-15T06:24:23.288Z", "updated_at"=>"2014-10-15T06:24:23.288Z"}]]
+
+
