@@ -1,6 +1,6 @@
 ##
 # Will be used to unsubscibe a user from a sub domain
-class ViewGroup < Command
+class unSubscribeFrom < Command
 	##
 	# Processes a message for unSubscribeFrom
 	# unSubscribeFrom <subdomain>
