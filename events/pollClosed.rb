@@ -17,12 +17,14 @@ class PollClosed < Event
 		percentDisagree =	MessageHelper.percentage proposal["no_votes_count"], proposal["votes_count"]
 		percentAbstain	=	MessageHelper.percentage proposal["abstain_votes_count"], proposal["votes_count"]
 		percentBlock	=	MessageHelper.percentage proposal["block_votes_count"], proposal["votes_count"]
+		totalVotes		=	proposal["votes_count"]
 	
 		msg = "Proposal #{proposal["name"]} has closed. The final positions are:
 Agree		=	#{percentAgree}
 Disagree	=	#{percentDisagree}
 Abstain		=	#{percentAbstain}
-Block		=	#{percentBlock}"
+Block		=	#{percentBlock}
+Total number of votes = #{totalVotes}"
 		# The message
 		Message.new subscription["tag"], msg
 	end
