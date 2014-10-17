@@ -23,9 +23,9 @@ class ViewGroup < Command
 		
 		# For each hash get the proposal name & key and add it to the msg string
 		props.each do |p|
-			k = p["key"]
+			k = Database.makeFriendly message.num, p["key"]
 			n = p["name"]
-			msg += "#{n} - #{k}\n"
+			msg += "#{k} - #{n}\n"
 		end
 
 		# Add help at the end for more information on a proposal

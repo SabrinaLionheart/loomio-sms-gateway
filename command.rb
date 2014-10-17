@@ -1,3 +1,4 @@
+require_relative 'database'
 require_relative 'loomioAPI'
 require_relative 'MessageHelper'
 ##
