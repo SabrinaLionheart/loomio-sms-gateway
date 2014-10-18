@@ -26,10 +26,10 @@ class GetProposal < Command
 		
 		# This is where the user is told the outcome of their command
 		return Message.new message.num, "The current positions are:
-Agree		=	#{percentAgree}
-Disagree	=	#{percentDisagree}
-Abstain		=	#{percentAbstain}
-Block		=	#{percentBlock}
+Agree		=	#{percentAgree}%
+Disagree	=	#{percentDisagree}%
+Abstain		=	#{percentAbstain}%
+Block		=	#{percentBlock}%
 Total number of votes = #{totalVotes}"
 	end
 end

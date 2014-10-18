@@ -19,10 +19,10 @@ class PollClosing < Event
 		totalVotes		=	proposal["votes_count"]
 		
 		msg = "The proposal #{proposal["name"]} is closing in #{hoursRemaining} hours. The current positions are:
-Agree		=	#{percentAgree}
-Disagree	=	#{percentDisagree}
-Abstain		=	#{percentAbstain}
-Block		=	#{percentBlock}
+Agree		=	#{percentAgree}%
+Disagree	=	#{percentDisagree}%
+Abstain		=	#{percentAbstain}%
+Block		=	#{percentBlock}%
 Total number of votes = #{totalVotes}"
 		# The message
 		Message.new subscription["tag"], msg
