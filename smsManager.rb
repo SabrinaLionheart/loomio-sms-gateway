@@ -36,24 +36,9 @@ class SMSManager
 	# ConditionNewMessage will notify this function that there are new messages to send
 	#
 	def self.sendSMS(array, mutex, conditionNewMessage)
+		require_relative 'masterConfig'
 		require 'net/http'
 		require 'resolv-replace'
-		require 'yaml'
-		params = nil
-		begin
-			params = YAML.load_file "smsConfig.yaml"
-			unless params[:server] && params[:pass]
-				raise "Parameters not correctly defined!"
-			end
-		# smsConfig.yaml is bad
-		rescue
-			$stderr.puts "Required parameters not present in smsConfig.yaml"
-			$stderr.puts "smsConfig.yaml has been regenerated, please enter the server address and password in the configuration file."
-			f = File.new "smsConfig.yaml", "w"
-			params = { :server => "example.server.address.com", :pass => "Secret Password" }
-			f.write params.to_yaml
-			exit -1
-		end
 		$stderr.puts "Started sender"
 		loop do
 			message = nil
@@ -67,7 +52,7 @@ class SMSManager
 
 			begin
 				# Build the url
-				url = URI.parse URI.escape("http://#{params[:server]}:9090/sendsms?phone=#{message.num}&text=#{message.msg}&password=#{params[:pass]}")
+				url = URI.parse URI.escape("http://#{MasterConfig.getSMSServer}:9090/sendsms?phone=#{message.num}&text=#{message.msg}&password=#{MasterConfig.getSMSPass}")
 				
 				# Attempt to send message
 				resp = Net::HTTP.get_response(url)

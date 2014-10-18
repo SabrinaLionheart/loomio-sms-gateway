@@ -1,6 +1,5 @@
+require_relative 'masterConfig'
 require 'net/http'
-require 'yaml'
-
 require 'rubygems'
 require 'json'
 
@@ -8,17 +7,10 @@ require 'json'
 # Accesses the API on Loomio's end
 #
 class LoomioAPI
-  # Loads from config the API URL.
-  @APICommands = YAML.load_file "apiConfig.yaml"
-  raise "loomio url not correctly defined!" unless @APICommands[:apiPath]
-  raise "Server URL not correctly defined!" unless @APICommands[:apiurl]
-  raise "gate api url not correctly defined!" unless @APICommands[:handler_url]
-
-
-  @uri = URI.parse(@APICommands[:apiurl])
+  @uri = URI.parse(MasterConfig.getAPIServer)
   @http = Net::HTTP.new @uri.host, @uri.port
-  @path = @APICommands[:apiPath]
-  @handlerURL = @APICommands[:handler_url]
+  @path = MasterConfig.getAPIPath
+  @handlerURL = MasterConfig.getAPIHandler
   $stderr.puts "API initialised"
 
   class << self
