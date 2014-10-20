@@ -10,6 +10,8 @@ class UnSubscribeFrom < Command
 		arguments = message.msg.split " "
 		subdomain = arguments.first
 
+		return Message.new message.num, "You have sent the wrong number or arguments. The command usage is:\nUnSubscribeFrom <Subdomain>" unless arguments.size == 1
+
 		# An API call unsubscribing the user from a group
 		status, response = LoomioAPI.unsubscribeFromSubdomain subdomain, message.num
 

@@ -11,6 +11,8 @@ class ViewGroup < Command
 		arguments = message.msg.split " "
 		subdomain = arguments.first
 
+		return Message.new message.num, "You have sent the wrong number or arguments. The command usage is:\nViewGroup <Subdomain>" unless arguments.size == 1
+
 		# An API call giving it a subdomain and getting an array of active proposals
 		result = LoomioAPI.getProposalsBySubdomain subdomain
 
