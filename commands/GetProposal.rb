@@ -11,7 +11,7 @@ class GetProposal < Command
 		propNum = arguments.first
 		propNum = Database.getKey(message.num, propNum)
 
-		return Message.new message.num, "That proposal number is not recognised. Please use ViewGroup to find the proposal your looking for.\n ViewGroup <subdomain>" if propNum.nil?
+		return Message.new message.num, "That proposal number is not recognised. Please use ViewGroup to find the proposal you're looking for.\n ViewGroup <subdomain>" if propNum.nil?
 
 		# Making a call to the API giving it a proposal number and getting a proposal 
 		status, proposal = LoomioAPI.getProposalByKey propNum
