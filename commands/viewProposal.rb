@@ -25,7 +25,7 @@ class ViewProposal < Command
 		totalVotes		=	proposal["votes_count"]
 		
 		# This is where the user is told the outcome of their command
-		return Message.new message.num, "The current positions are:
+		return Message.new message.num, "The current positions for #{proposal["name"]} are:
 Agree		=	#{percentAgree}%
 Disagree	=	#{percentDisagree}%
 Abstain		=	#{percentAbstain}%
