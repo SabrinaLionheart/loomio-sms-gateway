@@ -1,4 +1,4 @@
-class GetProposal < Command
+class ViewProposal < Command
 	
 	##
 	# Processes a message for newPoll

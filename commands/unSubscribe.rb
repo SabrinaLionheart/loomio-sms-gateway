@@ -1,6 +1,6 @@
 ##
 # Will be used to unsubscibe a user from a sub domain
-class UnSubscribeFrom < Command
+class UnSubscribe < Command
 	##
 	# Processes a message for unSubscribeFrom
 	# unSubscribeFrom <subdomain>
