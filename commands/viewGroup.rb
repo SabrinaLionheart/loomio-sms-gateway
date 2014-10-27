@@ -31,7 +31,7 @@ class ViewGroup < Command
 		end
 
 		# Add help at the end for more information on a proposal
-		msg += "Text \"getProposal\" followed by a proposal number for more info"
+		msg += "Text \"viewProposal\" followed by a proposal number for more info"
 
 		# This is where the user is told the outcome of their command
 		return Message.new message.num, msg
