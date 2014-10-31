@@ -3,10 +3,5 @@ class Message
 		@num = num
 		@msg = msg
 	end
-	def num
-		return @num
-	end
-	def msg
-		return @msg
-	end
+	attr_accessor :num, :msg
 end

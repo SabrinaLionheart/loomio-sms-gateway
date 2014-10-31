@@ -1,6 +1,7 @@
 require 'sqlite3'
 ##
 # A hacked together singleton for a sqlite3 database
+# This should be replaced with a better database
 #
 class Database
 	# Open database

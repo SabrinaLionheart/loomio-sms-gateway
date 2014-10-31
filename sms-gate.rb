@@ -60,6 +60,7 @@ end
 $stderr.puts "Starting event handling"
 EventHandler.setEventHandler outgoingMessages, outgoingMessages_m, outgoingMessages_c
 
+# Sinatra captured ^c, this feels hacky but I haven't investigated better solutions yet
 GateAPI.instance.join
 $stderr.puts "Joined API"
 messageReceiver.kill

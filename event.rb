@@ -20,7 +20,7 @@ class Event
 		event.instance_variable_set :@name, @name
 		# Track all events
 		@events << event
-		$stderr.puts "#{event} loaded"
+		$stderr.puts "Added event #{event}"
 	end
 
 	##
@@ -29,6 +29,7 @@ class Event
 	def self.handle(event)
 		$stderr.puts "#{self.class} did not overwrite handle"
 	end
+
 	##
 	# Gets the name of an event
 	#

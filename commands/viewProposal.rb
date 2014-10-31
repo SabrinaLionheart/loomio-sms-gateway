@@ -2,16 +2,17 @@ class ViewProposal < Command
 	
 	##
 	# Processes a message for newPoll
-	# getProposal <Proposal number>
+	# viewProposal <Proposal number>
 	def self.process(message)
 		# Remove the command name from the message
 		message.msg.slice! 0..name.size
-		
-		arguments = message.msg.split " "	
-		propNum = arguments.first
+		propNum = message.msg
 		propNum = Database.getKey(message.num, propNum)
 
-		return Message.new message.num, "That proposal number is not recognised. Please use ViewGroup to find the proposal you're looking for.\n ViewGroup <subdomain>" if propNum.nil?
+		return Message.new message.num, 
+			"That proposal number is not recognised. Please use ViewGroup to find "\
+			"the proposal you're looking for.\n"\
+			"ViewGroup <subdomain>" if propNum.nil?
 
 		# Making a call to the API giving it a proposal number and getting a proposal 
 		status, proposal = LoomioAPI.getProposalByKey propNum
@@ -25,11 +26,12 @@ class ViewProposal < Command
 		totalVotes		=	proposal["votes_count"]
 		
 		# This is where the user is told the outcome of their command
-		return Message.new message.num, "The current positions for #{proposal["name"]} are:
-Agree		=	#{percentAgree}%
-Disagree	=	#{percentDisagree}%
-Abstain		=	#{percentAbstain}%
-Block		=	#{percentBlock}%
-Total number of votes = #{totalVotes}"
+		return Message.new message.num, 
+			"The current positions for #{proposal["name"]} are:\n"\
+			"Agree		=	#{percentAgree}%\n"\
+			"Disagree	=	#{percentDisagree}%\n"\
+			"Abstain	=	#{percentAbstain}%\n"\
+			"Block		=	#{percentBlock}%\n"\
+			"Total number of votes = #{totalVotes}"
 	end
 end

@@ -1,4 +1,4 @@
 ---
-server: http://rd.severinmm.com:3000/api/v1/
+server: http://rd.severinmm.com:3000/api/v1
 handler_url: http://Home.SeverinMM.com:8080/api/event
-api_path: "/api/v1/"
+api_path: "/api/v1"

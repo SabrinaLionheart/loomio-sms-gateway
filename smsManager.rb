@@ -38,7 +38,7 @@ class SMSManager
 	def self.sendSMS(array, mutex, conditionNewMessage)
 		require_relative 'masterConfig'
 		require 'net/http'
-		require 'resolv-replace'
+		require 'resolv-replace' # Reduces resolve failures
 		$stderr.puts "Started sender"
 		loop do
 			message = nil

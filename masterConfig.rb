@@ -12,9 +12,9 @@ class MasterConfig
 	# Genereate the default values for apiConfig
 	def self.defaultAPI
 		serverHash = {}
-		serverHash['server'] = "http://rd.severinmm.com:3000/api/v1/"
+		serverHash['server'] = "http://rd.severinmm.com:3000/api/v1"
 		serverHash['handler_url'] = "http://Home.SeverinMM.com:8080/api/event"
-		serverHash['api_path'] = "/api/v1/"
+		serverHash['api_path'] = "/api/v1"
 		
 		File.open("config/apiConfig.yaml", 'w') do |a|
 			a.write serverHash.to_yaml

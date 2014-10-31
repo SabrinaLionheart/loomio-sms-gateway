@@ -21,7 +21,7 @@ class LoomioAPI
       req = Net::HTTP::Get.new(@path + apiURL + '/' + apiParams)
       req.set_form_data(params) unless params == nil
 
-      $stderr.puts "sending GET to #{@uri.to_s + @path + apiURL}"
+	  $stderr.puts "sending GET to #{@uri.host + req.path}"
 
       return @http.request(req)
 
@@ -34,7 +34,7 @@ class LoomioAPI
       req = Net::HTTP::Post.new(@path + apiURL + '/' + apiParams)
       req.set_form_data(data)
 
-      $stderr.puts "sending POST to #{@uri.to_s + @path + apiURL} with data #{data.to_s}"
+      $stderr.puts "sending POST to #{@uri.host + req.path} with data #{data.to_s}"
 
       return @http.request(req)
 
@@ -47,7 +47,7 @@ class LoomioAPI
       req = Net::HTTP::Delete.new(@path + apiURL + '/' + apiParams)
       req.set_form_data(data) unless data == nil
 
-      $stderr.puts "sending DELETE to #{@uri.to_s + @path + apiURL} with data #{data.to_s}"
+      $stderr.puts "sending DELETE to #{@uri.host + req.path} with data #{data.to_s}"
 
       return @http.request(req)
     end

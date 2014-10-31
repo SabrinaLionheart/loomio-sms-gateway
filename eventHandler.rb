@@ -20,7 +20,6 @@ class EventHandler
 			events[event.name] = event
 			events
 		end
-		puts events
 		# Tell GateAPI to handle events
 		GateAPI.post '/api/event/?' do
 			# No event?
