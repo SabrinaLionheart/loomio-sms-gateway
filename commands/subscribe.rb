@@ -1,7 +1,10 @@
+##
+# Makes a command to subscribe a user to a subdomain
+#
+# subscribe <subdomain>
+#
 class Subscribe < Command
-	##
-	# Makes a command to subscribe a user to a subdomain
-	# subscribe <subdomain>
+	# Overrides base in Command
 	def self.process(message)
 		message.msg.slice! 0..name.size
 		subdomain = message.msg

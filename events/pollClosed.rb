@@ -4,9 +4,7 @@
 class PollClosed < Event
 	@name = "motion_closed"
 
-	##
-	# Creates the message to notify the user of the event
-	#
+	# Overrides base in Event
 	def self.handle(event)
 	
 		# Making a call to the API giving it a proposal number and getting a proposal 
@@ -19,13 +17,12 @@ class PollClosed < Event
 		percentBlock	=	MessageHelper.percentage proposal["block_votes_count"], proposal["votes_count"]
 		totalVotes		=	proposal["votes_count"]
 	
-		msg = "Proposal #{proposal["name"]} has closed. The final positions are:
-Agree		=	#{percentAgree}%
-Disagree	=	#{percentDisagree}%
-Abstain		=	#{percentAbstain}%
-Block		=	#{percentBlock}%
-Total number of votes = #{totalVotes}"
-		# The message
-		Message.new subscription["tag"], msg
+		Message.new subscription["tag"], 
+			"Proposal #{proposal["name"]} has closed. The final positions are:\n"\
+			"Agree		=	#{percentAgree}%\n"\
+			"Disagree	=	#{percentDisagree}%\n"\
+			"Abstain	=	#{percentAbstain}%\n"\
+			"Block		=	#{percentBlock}%\n"\
+			"Total number of votes = #{totalVotes}"
 	end
 end

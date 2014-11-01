@@ -1,9 +1,10 @@
 ##
-# Will be used to unsubscibe a user from a subdomain
+# Makes a command to unsubscribe a user from a subdomain
+#
+# unSubscribe <subdomain>
+#
 class UnSubscribe < Command
-	##
-	# Processes a message for unSubscribeFrom
-	# unSubscribe <subdomain>
+	# Overrides base in Command
 	def self.process(message)
 		# Remove the command name from the message
 		message.msg.slice! 0..name.size

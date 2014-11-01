@@ -21,6 +21,11 @@ class Database
 		##
 		# Takes a key and returns a nicer number
 		#
+		# ==== Attributes
+		#
+		# * +num+ - The number of the user
+		# * +key+ - The key you wish to map to a nicer number
+		#
 		def makeFriendly(num, key)
 			result = @database.execute "SELECT * FROM keymap WHERE number=? AND proposal=?;", [num, key]
 			return result.first.last unless result.empty?
@@ -35,6 +40,14 @@ class Database
 			return nextFriendly
 		end
 
+		##
+		# Takes a friendly number and returns the key
+		#
+		# ==== Attributes
+		#
+		# * +num+ - The number of the user
+		# * +friendly_number+ - The friendly number representing the key you want
+		#
 		def getKey(num, friendly_number)
 			result = @database.execute "SELECT * FROM keymap WHERE number=? AND friendly_number=?;", [num,friendly_number]
 			return result.first[1] unless result.empty?

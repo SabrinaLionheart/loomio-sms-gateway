@@ -4,7 +4,13 @@ Dir[File.dirname(__FILE__) + '/commands/*.rb'].each do |file|
 	require file
 end
 
+##
+# Loads in commands and is called to handle requests from users
+#
 class Parser
+	##
+	# Creates a new Parser
+	#
 	def initialize
 		# Build a hash to relate each command name to it's class
 		@commands = {}
@@ -14,7 +20,11 @@ class Parser
 	end
 
 	##
-	# Parses and runs a command
+	# Parses and runs a commands
+	#
+	# ==== Attributes
+	#
+	# * +message+ - The message to be processed
 	#
 	def parse(message)
 		# Be prepared for a fatal error in commands
@@ -27,7 +37,9 @@ class Parser
 				$stderr.puts "Bad command"
 				$stderr.puts message.inspect
 				# Error message would go here
-				return Message.new message.num, "Your command was invalid. Here are the avaliable commands: #{Command.commands.join ", "}"
+				return Message.new message.num, 
+					"Your command was invalid. Here are the avaliable commands: \n"\
+					"#{Command.commands.join ", "}"
 			end
 			# Actually make the command
 			return command.process message
@@ -37,7 +49,8 @@ class Parser
 			$stderr.puts e.message
 			$stderr.puts e.backtrace
 			# Tell the user about the failure
-			return Message.new message.num, "Sorry, there was a fatal error while processing your command."
+			return Message.new message.num, 
+				"Sorry, there was a fatal error while processing your command."
 		end
 	end
 end

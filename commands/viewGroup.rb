@@ -1,18 +1,19 @@
 ##
-# Will be used to give the user a list of proposals and associated proposal 
+# Makes a command to give the user a list of active proposals and associated proposal 
 # numbers for a given group
+#
+# viewGroup <subdomain>
+#
 class ViewGroup < Command
-	##
-	# Processes a message for viewGroup
-	# viewGroup <subdomain>
+	# Overrides base in Command
 	def self.process(message)
 		# Remove the command name from the message
 		message.msg.slice! 0..name.size
 		subdomain = message.msg
 
-		return Message.new message.num, 
-		"You have sent the wrong number or arguments. The command usage is:\n"\
-		"ViewGroup <Subdomain>" if subdomain.empty?
+		return Message.new message.num,
+			"You have sent the wrong number or arguments. The command usage is:\n"\
+			"ViewGroup <Subdomain>" if subdomain.empty?
 
 		# An API call giving it a subdomain and getting an array of active proposals
 		result = LoomioAPI.getProposalsBySubdomain subdomain

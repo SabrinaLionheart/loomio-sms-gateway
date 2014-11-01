@@ -4,9 +4,7 @@
 class PollOutcomePosted < Event
 	@name = "motion_outcome_posted"
 
-	##
-	# Creates the message to notify the user of the event
-	#
+	# Overrides base in Event
 	def self.handle(event)
 	
 		# Making a call to the API giving it a proposal number and getting a proposal 

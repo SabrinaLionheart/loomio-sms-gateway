@@ -4,9 +4,7 @@
 class NewMotion < Event
 	@name = "new_motion"
 
-	##
-	# Creates the message to notify the user of the event
-	#
+	# Overrides base in Event
 	def self.handle(event)
 		motion = event["motion"]
 		username = event["user_name"]

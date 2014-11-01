@@ -12,6 +12,12 @@ class EventHandler
 	##
 	# Adds event handeling to the gateAPI
 	#
+	# ==== Attributes
+	#
+	# * +array+ - The array to place outgoing messages into
+	# * +mutex+ - The mutex guarding access to the array
+	# * +conditionNewMessage+ - The condition variable used to signal the message sender
+	#
 	def self.setEventHandler(array, mutex, conditionNewMessage)
 		require_relative 'gateAPI'
 		require 'json'

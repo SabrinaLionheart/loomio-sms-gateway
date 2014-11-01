@@ -8,6 +8,7 @@ require_relative 'MessageHelper'
 class Command
 	# Make @name and @delimiter acessable class variables
 	class << self
+		# Stores classes for all child commands
 		attr_accessor :commands
 	end
 	# The array of commands
@@ -15,6 +16,10 @@ class Command
 	
 	##
 	# Creates an array of all commands and sets class variables for children
+	#
+	# ==== Attributes
+	#
+	# * +command+ - The class of the command that inherited this class
 	#
 	def self.inherited(command)
 		# Makes child commands inherit @name and @delimiter
@@ -27,6 +32,10 @@ class Command
 	##
 	# Processes the message and if possible performs the command
 	# Returns a message as a responce or nil
+	#
+	# ==== Attributes
+	# 
+	# * +message+ - The message the command has been called to process
 	#
 	def self.process(message)
 		$stderr.puts "#{self} did not override process!"

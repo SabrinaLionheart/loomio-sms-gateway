@@ -4,9 +4,7 @@
 class NewDiscussion < Event
 	@name = "new_discussion"
 
-	##
-	# Creates the message to notify the user of the event
-	#
+	# Overrides base in Event
 	def self.handle(event)
 		group = event["group"]
 		discussion = event["discussion"]

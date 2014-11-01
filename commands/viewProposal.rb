@@ -1,8 +1,9 @@
+##
+# Makes a new command to show the user a Proposal
+#
+# viewProposal <Proposal number>
 class ViewProposal < Command
-	
-	##
-	# Processes a message for newPoll
-	# viewProposal <Proposal number>
+	# Overrides base in Command
 	def self.process(message)
 		# Remove the command name from the message
 		message.msg.slice! 0..name.size

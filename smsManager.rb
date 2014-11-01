@@ -1,13 +1,15 @@
+##
+# Handles incoming and outgoing messages
 class SMSManager
 	##
 	# Gets all messages and stores them in the provided array in a synchronized way
 	#
 	# This get's it's own thread to run in, sinatra doesn't require it but other implementations
 	# might.
-	# 
-	# Array is the array messages are stored in
-	# Mutex is the mutex guarding access to the array
-	# ConditionNewMessage is to be signalled whenever a message is added
+	# ==== Attributes
+	# * +array+ - the array messages are stored in
+	# * +mutex+ - the mutex guarding access to the array
+	# * +conditionNewMessage+ - to be signalled whenever a message is added
 	# 
 	def self.getSMS(array, mutex, conditionNewMessage)
 		require_relative 'gateAPI'
@@ -26,14 +28,16 @@ class SMSManager
 		end
 		$stderr.puts "Started receiver"
 	end
+
 	##
 	# Sends all messages in the array in a synchronized way
 	# 
 	# This function will get it's own thread to run in
 	#
-	# Array is the array of messages to send
-	# Mutex guards access to the array
-	# ConditionNewMessage will notify this function that there are new messages to send
+	# ==== Attributes
+	# * +array+ - the array messages are stored in
+	# * +mutex+ - the mutex guarding access to the array
+	# * +conditionNewMessage+ - notifies this function when there are new messages to send
 	#
 	def self.sendSMS(array, mutex, conditionNewMessage)
 		require_relative 'masterConfig'

@@ -32,6 +32,7 @@ class GateAPI
 	# Provide access to instance
 	#
 	class << self
+		# The thread Sinatra is running in
 		attr_accessor :instance
 	end
 end

@@ -4,9 +4,7 @@
 class PollClosing < Event
 	@name = "motion_closing_soon"
 
-	##
-	# Creates the message to notify the user of the event
-	#
+	# Overrides base in Event
 	def self.handle(event)
 		proposal = event["motion"]
 		subscription = event["subscription"]
@@ -18,13 +16,13 @@ class PollClosing < Event
 		percentBlock	=	MessageHelper.percentage proposal["block_votes_count"], proposal["votes_count"]
 		totalVotes		=	proposal["votes_count"]
 		
-		msg = "The proposal #{proposal["name"]} is closing in #{hoursRemaining} hours. The current positions are:
-Agree		=	#{percentAgree}%
-Disagree	=	#{percentDisagree}%
-Abstain		=	#{percentAbstain}%
-Block		=	#{percentBlock}%
-Total number of votes = #{totalVotes}"
-		# The message
-		Message.new subscription["tag"], msg
+		Message.new subscription["tag"],
+			"The proposal #{proposal["name"]} is closing in #{hoursRemaining} hours. "\
+			"The current positions are:\n"\
+			"Agree		=	#{percentAgree}%\n"\
+			"Disagree	=	#{percentDisagree}%\n"\
+			"Abstain	=	#{percentAbstain}%\n"\
+			"Block		=	#{percentBlock}%\n"\
+			"Total number of votes = #{totalVotes}"
 	end
 end
